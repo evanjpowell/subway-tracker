@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NYC Subway Tracker</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: #2a2a3e;
+      font-family: Helvetica, Arial, sans-serif;
+      display: flex;
+    }
+
+    /* ── Map ── */
+    #map-container {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      cursor: grab;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    #map-container.dragging { cursor: grabbing; }
+
+    #map-viewport {
+      position: absolute;
+      top: 0; left: 0;
+      transform-origin: 0 0;
+      will-change: transform;
+    }
+    #map-viewport svg { display: block; }
+
+    /* Station paths that are clickable get a pointer cursor on hover */
+    [data-station-id]:hover { cursor: pointer; }
+
+    /* Overlay circles for visited stations */
+    .visited-marker {
+      pointer-events: none;
+      fill: rgba(34, 197, 94, 0.55);
+      stroke: #16a34a;
+      stroke-width: 4;
+    }
+
+    /* ── Panel ── */
+    #panel {
+      width: 220px;
+      min-width: 220px;
+      height: 100vh;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 14px 16px;
+      gap: 14px;
+      z-index: 10;
+      box-shadow: -6px 0 24px rgba(0, 0, 0, 0.35);
+    }
+
+    #panel-title {
+      font-size: 11px;
+      font-weight: bold;
+      text-align: center;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    /* ── Stat blocks ── */
+    .stat-block { text-align: right; }
+
+    .stat-number {
+      font-size: 44px;
+      font-weight: bold;
+      color: #111;
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+    .stat-number .denom {
+      font-size: 26px;
+      color: #888;
+      font-weight: normal;
+    }
+    .stat-label {
+      font-size: 9px;
+      font-weight: bold;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+    .progress-bar {
+      height: 5px;
+      background: #ececec;
+      border-radius: 3px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 3px;
+      width: 0%;
+      transition: width 0.35s ease;
+    }
+    #stations-progress-fill { background: #22c55e; }
+    #services-progress-fill { background: #3b82f6; }
+
+    .stat-divider {
+      border: none;
+      border-top: 1px solid #efefef;
+      margin: 0;
+    }
+
+    /* Second stat (services) is smaller */
+    .stat-block.small .stat-number { font-size: 30px; }
+    .stat-block.small .stat-number .denom { font-size: 18px; }
+
+    /* ── Instructions ── */
+    #instructions {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 11px;
+      color: #bbb;
+      line-height: 1.6;
+      padding: 0 4px;
+    }
+
+    /* ── Bottom bar ── */
+    #panel-bottom {
+      display: flex;
+      gap: 8px;
+    }
+    .panel-btn {
+      flex: 1;
+      padding: 9px 6px;
+      border: none;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .panel-btn:hover { opacity: 0.85; }
+    #btn-reset  { background: #ececec; color: #444; }
+    #btn-share  { background: #9a38a1; color: #fff; }
+
+    /* ── Loading overlay ── */
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: #2a2a3e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      z-index: 200;
+      color: #fff;
+    }
+    #loading h1 { font-size: 22px; font-weight: bold; letter-spacing: 1px; }
+    #loading p  { font-size: 13px; color: #aaa; }
+
+    /* ── Toast notification ── */
+    #toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: rgba(30, 30, 30, 0.92);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+      pointer-events: none;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      opacity: 0;
+      z-index: 100;
+      white-space: nowrap;
+    }
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loading screen -->
+<div id="loading">
+  <h1>NYC Subway Tracker</h1>
+  <p>Loading map…</p>
+</div>
+
+<!-- Map area -->
+<div id="map-container">
+  <div id="map-viewport"></div>
+</div>
+
+<!-- Side panel -->
+<div id="panel">
+  <div id="panel-title">NYC Subway Tracker</div>
+
+  <!-- Stations stat -->
+  <div class="stat-block">
+    <div class="stat-number">
+      <span id="stations-visited">0</span><span class="denom"> / <span id="stations-total">446</span></span>
+    </div>
+    <div class="stat-label">Stations Visited</div>
+    <div class="progress-bar"><div class="progress-fill" id="stations-progress-fill"></div></div>
+  </div>
+
+  <hr class="stat-divider">
+
+  <!-- Services stat (placeholder) -->
+  <div class="stat-block small">
+    <div class="stat-number">
+      <span id="services-ridden">0</span><span class="denom"> / <span id="services-total">27</span></span>
+    </div>
+    <div class="stat-label">Services Ridden</div>
+    <div class="progress-bar"><div class="progress-fill" id="services-progress-fill"></div></div>
+  </div>
+
+  <!-- Instruction text -->
+  <div id="instructions">
+    Click a station on the map to mark it visited.<br><br>
+    Scroll to zoom &nbsp;·&nbsp; Drag to pan
+  </div>
+
+  <!-- Buttons -->
+  <div id="panel-bottom">
+    <button class="panel-btn" id="btn-reset">Reset</button>
+    <button class="panel-btn" id="btn-share">Share</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+  // ─── State ─────────────────────────────────────────────────────────────────
+  let stationData   = {};   // stationId → { id, name, paths[] }
+  let pathToStation = {};   // svgPathId → stationId
+  let totalStations = 0;
+  let visitedStations = new Set(); // set of stationIds (strings)
+
+  // ─── DOM refs ───────────────────────────────────────────────────────────────
+  const mapContainer = document.getElementById('map-container');
+  const mapViewport  = document.getElementById('map-viewport');
+  const loadingEl    = document.getElementById('loading');
+  const toastEl      = document.getElementById('toast');
+
+  // ─── Pan / zoom state ───────────────────────────────────────────────────────
+  const MIN_SCALE = 0.12;
+  const MAX_SCALE = 3.0;
+  let scale      = 0.3;
+  let translateX = 0;
+  let translateY = 0;
+  let isDragging = false;
+  let pointerMoved = false;
+  let lastMouseX = 0;
+  let lastMouseY = 0;
+
+  function applyTransform() {
+    mapViewport.style.transform =
+      `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+  }
+
+  // ─── Init ───────────────────────────────────────────────────────────────────
+  async function init() {
+    const [stationRes, svgRes] = await Promise.all([
+      fetch('subway_station_mapping_2026-01-31.json'),
+      fetch('subway_map.svg'),
+    ]);
+
+    const stationJson = await stationRes.json();
+    const svgText     = await svgRes.text();
+
+    // Parse station data
+    stationData   = stationJson.stations;
+    totalStations = stationJson.totalStations;
+    document.getElementById('stations-total').textContent = totalStations;
+
+    // Build reverse map: svgPathId → stationId
+    for (const [id, station] of Object.entries(stationData)) {
+      for (const pathId of station.paths) {
+        pathToStation[pathId] = id;
+      }
+    }
+
+    // Inject SVG into the viewport
+    mapViewport.innerHTML = svgText;
+    const svgEl = mapViewport.querySelector('svg');
+
+    // Tag every station path so CSS can apply hover cursor
+    for (const pathId of Object.keys(pathToStation)) {
+      const el = document.getElementById(pathId);
+      if (el) el.dataset.stationId = pathToStation[pathId];
+    }
+
+    // Add an overlay group for visited markers (rendered on top, no pointer events)
+    const overlayGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    overlayGroup.id = 'visited-overlay';
+    overlayGroup.style.pointerEvents = 'none';
+    svgEl.appendChild(overlayGroup);
+
+    // Fit map to container on load
+    const cw = mapContainer.offsetWidth;
+    const ch = mapContainer.offsetHeight;
+    const svgW = parseFloat(svgEl.getAttribute('width'));
+    const svgH = parseFloat(svgEl.getAttribute('height'));
+    scale = Math.min(cw / svgW, ch / svgH) * 0.97;
+    translateX = (cw - svgW * scale) / 2;
+    translateY = (ch - svgH * scale) / 2;
+    applyTransform();
+
+    // Attach click listener (event delegation on the SVG)
+    svgEl.addEventListener('click', handleMapClick);
+
+    // Load persisted visited stations
+    loadFromCookie();
+    updatePanel();
+
+    loadingEl.style.display = 'none';
+  }
+
+  // ─── Station interaction ────────────────────────────────────────────────────
+  function handleMapClick(e) {
+    if (pointerMoved) return; // drag, not a click
+
+    // Walk up the DOM tree from the clicked element to find a tagged path
+    let el = e.target;
+    const svgEl = mapViewport.querySelector('svg');
+    while (el && el !== svgEl) {
+      const stationId = el.dataset.stationId;
+      if (stationId) {
+        toggleStation(stationId);
+        return;
+      }
+      el = el.parentElement;
+    }
+  }
+
+  function toggleStation(stationId) {
+    if (visitedStations.has(stationId)) {
+      visitedStations.delete(stationId);
+      removeVisitedMarker(stationId);
+      showToast(`Removed: ${stationData[stationId].name}`);
+    } else {
+      visitedStations.add(stationId);
+      addVisitedMarker(stationId);
+      showToast(`Visited: ${stationData[stationId].name}`);
+    }
+    updatePanel();
+    saveToCookie();
+  }
+
+  function addVisitedMarker(stationId) {
+    const station = stationData[stationId];
+    if (!station) return;
+
+    const svgEl       = mapViewport.querySelector('svg');
+    const overlayGroup = svgEl.querySelector('#visited-overlay');
+    const screenCTM   = svgEl.getScreenCTM();
+    if (!screenCTM) return;
+    const inverseCTM  = screenCTM.inverse();
+
+    // Average the center of all paths for this station (in SVG user-space)
+    let totalX = 0, totalY = 0, count = 0;
+    for (const pathId of station.paths) {
+      const el = document.getElementById(pathId);
+      if (!el) continue;
+      try {
+        const rect = el.getBoundingClientRect();
+        if (rect.width === 0 && rect.height === 0) continue;
+        const pt = svgEl.createSVGPoint();
+        pt.x = rect.left + rect.width  / 2;
+        pt.y = rect.top  + rect.height / 2;
+        const svgPt = pt.matrixTransform(inverseCTM);
+        totalX += svgPt.x;
+        totalY += svgPt.y;
+        count++;
+      } catch (_) {}
+    }
+    if (count === 0) return;
+
+    const cx = totalX / count;
+    const cy = totalY / count;
+
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', cx);
+    circle.setAttribute('cy', cy);
+    circle.setAttribute('r',  '14');
+    circle.classList.add('visited-marker');
+    circle.id = `vm-${stationId}`;
+    overlayGroup.appendChild(circle);
+  }
+
+  function removeVisitedMarker(stationId) {
+    const el = document.getElementById(`vm-${stationId}`);
+    if (el) el.remove();
+  }
+
+  // ─── Panel ──────────────────────────────────────────────────────────────────
+  function updatePanel() {
+    const visited = visitedStations.size;
+    document.getElementById('stations-visited').textContent = visited;
+    const pct = totalStations > 0 ? (visited / totalStations * 100) : 0;
+    document.getElementById('stations-progress-fill').style.width = pct + '%';
+  }
+
+  // ─── Cookie persistence ─────────────────────────────────────────────────────
+  function saveToCookie() {
+    const data    = JSON.stringify([...visitedStations]);
+    const expires = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toUTCString();
+    document.cookie =
+      `visitedStations=${encodeURIComponent(data)};expires=${expires};path=/`;
+  }
+
+  function loadFromCookie() {
+    const match = document.cookie
+      .split(';')
+      .map(c => c.trim())
+      .find(c => c.startsWith('visitedStations='));
+    if (!match) return;
+    try {
+      const ids = JSON.parse(decodeURIComponent(match.split('=').slice(1).join('=')));
+      for (const id of ids) {
+        visitedStations.add(id);
+        addVisitedMarker(id);
+      }
+    } catch (e) {
+      console.warn('Could not parse visited stations cookie', e);
+    }
+  }
+
+  // ─── Reset ──────────────────────────────────────────────────────────────────
+  document.getElementById('btn-reset').addEventListener('click', () => {
+    if (!confirm('Reset all visited stations?')) return;
+    const svgEl       = mapViewport.querySelector('svg');
+    const overlayGroup = svgEl && svgEl.querySelector('#visited-overlay');
+    if (overlayGroup) overlayGroup.innerHTML = '';
+    visitedStations.clear();
+    updatePanel();
+    saveToCookie();
+  });
+
+  // ─── Share (stub) ────────────────────────────────────────────────────────────
+  document.getElementById('btn-share').addEventListener('click', () => {
+    showToast('Share coming soon!');
+  });
+
+  // ─── Toast ──────────────────────────────────────────────────────────────────
+  let toastTimer = null;
+  function showToast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2200);
+  }
+
+  // ─── Mouse pan / zoom ────────────────────────────────────────────────────────
+  mapContainer.addEventListener('mousedown', e => {
+    if (e.button !== 0) return;
+    isDragging   = true;
+    pointerMoved = false;
+    lastMouseX   = e.clientX;
+    lastMouseY   = e.clientY;
+    mapContainer.classList.add('dragging');
+    e.preventDefault();
+  });
+
+  window.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    const dx = e.clientX - lastMouseX;
+    const dy = e.clientY - lastMouseY;
+    if (Math.abs(dx) + Math.abs(dy) > 4) pointerMoved = true;
+    translateX += dx;
+    translateY += dy;
+    lastMouseX = e.clientX;
+    lastMouseY = e.clientY;
+    applyTransform();
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    mapContainer.classList.remove('dragging');
+    // Reset pointerMoved after the click event has fired
+    setTimeout(() => { pointerMoved = false; }, 50);
+  });
+
+  mapContainer.addEventListener('wheel', e => {
+    e.preventDefault();
+    const factor   = e.deltaY < 0 ? 1.1 : 1 / 1.1;
+    const newScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale * factor));
+    if (newScale === scale) return;
+
+    // Zoom toward mouse pointer
+    const rect   = mapContainer.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    translateX   = mouseX - (mouseX - translateX) * (newScale / scale);
+    translateY   = mouseY - (mouseY - translateY) * (newScale / scale);
+    scale        = newScale;
+    applyTransform();
+  }, { passive: false });
+
+  // ─── Touch pan / pinch-zoom ──────────────────────────────────────────────────
+  let lastTouchDist = null;
+  let lastTouchMidX = 0;
+  let lastTouchMidY = 0;
+
+  mapContainer.addEventListener('touchstart', e => {
+    if (e.touches.length === 1) {
+      isDragging   = true;
+      pointerMoved = false;
+      lastMouseX   = e.touches[0].clientX;
+      lastMouseY   = e.touches[0].clientY;
+    } else if (e.touches.length === 2) {
+      isDragging = false;
+      const dx = e.touches[1].clientX - e.touches[0].clientX;
+      const dy = e.touches[1].clientY - e.touches[0].clientY;
+      lastTouchDist = Math.hypot(dx, dy);
+      lastTouchMidX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+      lastTouchMidY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+    }
+    e.preventDefault();
+  }, { passive: false });
+
+  mapContainer.addEventListener('touchmove', e => {
+    if (e.touches.length === 1 && isDragging) {
+      const dx = e.touches[0].clientX - lastMouseX;
+      const dy = e.touches[0].clientY - lastMouseY;
+      if (Math.abs(dx) + Math.abs(dy) > 4) pointerMoved = true;
+      translateX += dx;
+      translateY += dy;
+      lastMouseX = e.touches[0].clientX;
+      lastMouseY = e.touches[0].clientY;
+      applyTransform();
+    } else if (e.touches.length === 2 && lastTouchDist !== null) {
+      const dx   = e.touches[1].clientX - e.touches[0].clientX;
+      const dy   = e.touches[1].clientY - e.touches[0].clientY;
+      const dist = Math.hypot(dx, dy);
+      const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+      const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+
+      const factor   = dist / lastTouchDist;
+      const newScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale * factor));
+      const rect     = mapContainer.getBoundingClientRect();
+      const relX     = midX - rect.left;
+      const relY     = midY - rect.top;
+
+      translateX = relX - (relX - translateX) * (newScale / scale);
+      translateY = relY - (relY - translateY) * (newScale / scale);
+      // Also pan with finger movement
+      translateX += midX - lastTouchMidX;
+      translateY += midY - lastTouchMidY;
+      scale = newScale;
+
+      lastTouchDist = dist;
+      lastTouchMidX = midX;
+      lastTouchMidY = midY;
+      applyTransform();
+    }
+    e.preventDefault();
+  }, { passive: false });
+
+  mapContainer.addEventListener('touchend', e => {
+    if (e.touches.length < 2) lastTouchDist = null;
+    if (e.touches.length === 0) {
+      isDragging = false;
+      setTimeout(() => { pointerMoved = false; }, 50);
+    }
+  });
+
+  // ─── Boot ────────────────────────────────────────────────────────────────────
+  init().catch(err => {
+    console.error(err);
+    loadingEl.querySelector('p').textContent = 'Error loading map. ' + err.message;
+  });
+</script>
+</body>
+</html>

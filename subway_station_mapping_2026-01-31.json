@@ -1,0 +1,4522 @@
+{
+  "version": "1.0",
+  "exportedAt": "2026-01-31T22:14:31.162Z",
+  "totalStations": 446,
+  "stations": {
+    "1": {
+      "id": "1",
+      "name": "Astoria-Ditmars Blvd",
+      "paths": [
+        "path4819",
+        "path4821",
+        "path4080",
+        "path4818",
+        "path4820"
+      ]
+    },
+    "2": {
+      "id": "2",
+      "name": "Astoria Blvd",
+      "paths": [
+        "path4079",
+        "path4817",
+        "path4816",
+        "path4814",
+        "path4815",
+        "path6114",
+        "path6116"
+      ]
+    },
+    "3": {
+      "id": "3",
+      "name": "30 Av",
+      "paths": [
+        "path4078",
+        "path4811",
+        "path4810",
+        "path4813",
+        "path4812"
+      ]
+    },
+    "4": {
+      "id": "4",
+      "name": "Broadway",
+      "paths": [
+        "path4077",
+        "path4808",
+        "path4809",
+        "path4806",
+        "path4807"
+      ]
+    },
+    "5": {
+      "id": "5",
+      "name": "36 Av",
+      "paths": [
+        "path4076",
+        "path4805",
+        "path4804",
+        "path4803",
+        "path4802"
+      ]
+    },
+    "6": {
+      "id": "6",
+      "name": "39 Av-Dutch Kills",
+      "paths": [
+        "path4075",
+        "path4800",
+        "path4801",
+        "path4799",
+        "path4798"
+      ]
+    },
+    "8": {
+      "id": "8",
+      "name": "5 Av / 59 St",
+      "paths": [
+        "path4834",
+        "path4100",
+        "path4788",
+        "path4789",
+        "path4835",
+        "path4792",
+        "path4793"
+      ]
+    },
+    "9": {
+      "id": "9",
+      "name": "57 St-7 Av",
+      "paths": [
+        "path4055",
+        "path4832",
+        "path4833",
+        "path4786",
+        "path4787",
+        "path4790",
+        "path4791",
+        "path4822",
+        "path4823"
+      ]
+    },
+    "10": {
+      "id": "10",
+      "name": "49 St",
+      "paths": [
+        "path4054",
+        "path4888",
+        "path4889",
+        "path4892",
+        "path4893",
+        "path4890",
+        "path4891"
+      ]
+    },
+    "13": {
+      "id": "13",
+      "name": "28 St",
+      "paths": [
+        "path3975",
+        "path4896",
+        "path4897",
+        "path4894",
+        "path4895"
+      ]
+    },
+    "14": {
+      "id": "14",
+      "name": "23 St",
+      "paths": [
+        "path3976",
+        "path4776",
+        "path4777",
+        "path4774",
+        "path4775"
+      ]
+    },
+    "16": {
+      "id": "16",
+      "name": "8 St-NYU",
+      "paths": [
+        "path3968",
+        "path4900",
+        "path4901",
+        "path4898",
+        "path4899"
+      ]
+    },
+    "17": {
+      "id": "17",
+      "name": "Prince St",
+      "paths": [
+        "path3967",
+        "path4758",
+        "path4759",
+        "path4756",
+        "path4757"
+      ]
+    },
+    "20": {
+      "id": "20",
+      "name": "City Hall",
+      "paths": [
+        "path3981",
+        "path4764",
+        "path4765",
+        "path4760",
+        "path4761"
+      ]
+    },
+    "22": {
+      "id": "22",
+      "name": "Rector St",
+      "paths": [
+        "path4156",
+        "path4772",
+        "path4773",
+        "path4770",
+        "path4771"
+      ]
+    },
+    "26": {
+      "id": "26",
+      "name": "DeKalb Av",
+      "paths": [
+        "path3876",
+        "path4029",
+        "path4742",
+        "path4743",
+        "path4736",
+        "path4737",
+        "path4744",
+        "path4745"
+      ]
+    },
+    "28": {
+      "id": "28",
+      "name": "Union St",
+      "paths": [
+        "path4714",
+        "path4715"
+      ]
+    },
+    "30": {
+      "id": "30",
+      "name": "Prospect Av",
+      "paths": [
+        "path4718",
+        "path4719"
+      ]
+    },
+    "31": {
+      "id": "31",
+      "name": "25 St",
+      "paths": [
+        "path4720",
+        "path4721"
+      ]
+    },
+    "32": {
+      "id": "32",
+      "name": "36 St",
+      "paths": [
+        "path4025",
+        "path5726",
+        "path5727",
+        "path4696",
+        "path4697",
+        "path4712",
+        "path4713"
+      ]
+    },
+    "33": {
+      "id": "33",
+      "name": "45 St",
+      "paths": [
+        "path4722",
+        "path4723"
+      ]
+    },
+    "34": {
+      "id": "34",
+      "name": "53 St",
+      "paths": [
+        "path4724",
+        "path4725"
+      ]
+    },
+    "35": {
+      "id": "35",
+      "name": "59 St",
+      "paths": [
+        "path4142",
+        "path4726",
+        "path4727",
+        "path4704",
+        "path4705"
+      ]
+    },
+    "36": {
+      "id": "36",
+      "name": "Bay Ridge Av",
+      "paths": [
+        "path4728",
+        "path4729"
+      ]
+    },
+    "37": {
+      "id": "37",
+      "name": "77 St",
+      "paths": [
+        "path4730",
+        "path4731"
+      ]
+    },
+    "38": {
+      "id": "38",
+      "name": "86 St",
+      "paths": [
+        "path4732",
+        "path4733"
+      ]
+    },
+    "39": {
+      "id": "39",
+      "name": "Bay Ridge-95 St",
+      "paths": [
+        "path4734",
+        "path4735"
+      ]
+    },
+    "41": {
+      "id": "41",
+      "name": "7 Av",
+      "paths": [
+        "path4020",
+        "path4640",
+        "path4641",
+        "path4638",
+        "path4639"
+      ]
+    },
+    "42": {
+      "id": "42",
+      "name": "Prospect Park",
+      "paths": [
+        "path4145",
+        "path4644",
+        "path4645",
+        "path4642",
+        "path4643",
+        "path4515",
+        "path4516"
+      ]
+    },
+    "43": {
+      "id": "43",
+      "name": "Parkside Av",
+      "paths": [
+        "path4646",
+        "path4647"
+      ]
+    },
+    "44": {
+      "id": "44",
+      "name": "Church Av",
+      "paths": [
+        "path4146",
+        "path4650",
+        "path4651",
+        "path4648",
+        "path4649"
+      ]
+    },
+    "45": {
+      "id": "45",
+      "name": "Beverley Rd",
+      "paths": [
+        "path4652",
+        "path4653"
+      ]
+    },
+    "46": {
+      "id": "46",
+      "name": "Cortelyou Rd",
+      "paths": [
+        "path4654",
+        "path4655"
+      ]
+    },
+    "47": {
+      "id": "47",
+      "name": "Newkirk Plaza",
+      "paths": [
+        "path4147",
+        "path4658",
+        "path4659",
+        "path4656",
+        "path4657"
+      ]
+    },
+    "48": {
+      "id": "48",
+      "name": "Avenue H",
+      "paths": [
+        "path4660",
+        "path4661"
+      ]
+    },
+    "49": {
+      "id": "49",
+      "name": "Avenue J",
+      "paths": [
+        "path4662",
+        "path4663"
+      ]
+    },
+    "50": {
+      "id": "50",
+      "name": "Avenue M",
+      "paths": [
+        "path4664",
+        "path4665"
+      ]
+    },
+    "51": {
+      "id": "51",
+      "name": "Kings Hwy",
+      "paths": [
+        "path4148",
+        "path4668",
+        "path4669",
+        "path4666",
+        "path4667"
+      ]
+    },
+    "52": {
+      "id": "52",
+      "name": "Avenue U",
+      "paths": [
+        "path4670",
+        "path4671"
+      ]
+    },
+    "53": {
+      "id": "53",
+      "name": "Neck Rd",
+      "paths": [
+        "path4672",
+        "path4673"
+      ]
+    },
+    "54": {
+      "id": "54",
+      "name": "Sheepshead Bay",
+      "paths": [
+        "path4149",
+        "path4682",
+        "path4683",
+        "path4680",
+        "path4681"
+      ]
+    },
+    "55": {
+      "id": "55",
+      "name": "Brighton Beach",
+      "paths": [
+        "path4150",
+        "path4686",
+        "path4687",
+        "path4684",
+        "path4685"
+      ]
+    },
+    "56": {
+      "id": "56",
+      "name": "Ocean Pkwy",
+      "paths": [
+        "path4678",
+        "path4679"
+      ]
+    },
+    "57": {
+      "id": "57",
+      "name": "W 8 St-NY Aquarium",
+      "paths": [
+        "path4026",
+        "path4307",
+        "path4308",
+        "path4676",
+        "path4677"
+      ]
+    },
+    "58": {
+      "id": "58",
+      "name": "Coney Island-Stillwell Av",
+      "paths": [
+        "path4116",
+        "path4612",
+        "path4613",
+        "path4628",
+        "path4629",
+        "path4281",
+        "path4282",
+        "path4674",
+        "path4675"
+      ]
+    },
+    "59": {
+      "id": "59",
+      "name": "9 av",
+      "paths": [
+        "path5728",
+        "path5729"
+      ]
+    },
+    "60": {
+      "id": "60",
+      "name": "Fort Hamilton Pkwy",
+      "paths": [
+        "path5730",
+        "path5731"
+      ]
+    },
+    "61": {
+      "id": "61",
+      "name": "50 St",
+      "paths": [
+        "path5732",
+        "path5733"
+      ]
+    },
+    "62": {
+      "id": "62",
+      "name": "55 St",
+      "paths": [
+        "path5734",
+        "path5735"
+      ]
+    },
+    "64": {
+      "id": "64",
+      "name": "71 St",
+      "paths": [
+        "path4626",
+        "path4627"
+      ]
+    },
+    "65": {
+      "id": "65",
+      "name": "79 St",
+      "paths": [
+        "path4616",
+        "path4617"
+      ]
+    },
+    "66": {
+      "id": "66",
+      "name": "18 Av",
+      "paths": [
+        "path4614",
+        "path4615"
+      ]
+    },
+    "67": {
+      "id": "67",
+      "name": "20 Av",
+      "paths": [
+        "path4618",
+        "path4619"
+      ]
+    },
+    "68": {
+      "id": "68",
+      "name": "Bay Pkwy",
+      "paths": [
+        "path4620",
+        "path4621"
+      ]
+    },
+    "69": {
+      "id": "69",
+      "name": "25 Av",
+      "paths": [
+        "path4622",
+        "path4623"
+      ]
+    },
+    "70": {
+      "id": "70",
+      "name": "Bay 50 St",
+      "paths": [
+        "path4624",
+        "path4625"
+      ]
+    },
+    "71": {
+      "id": "71",
+      "name": "8 Av",
+      "paths": [
+        "path4702",
+        "path4703"
+      ]
+    },
+    "72": {
+      "id": "72",
+      "name": "Fort Hamilton Pkwy",
+      "paths": [
+        "path4698",
+        "path4699"
+      ]
+    },
+    "74": {
+      "id": "74",
+      "name": "18 Av",
+      "paths": [
+        "path4706",
+        "path4707"
+      ]
+    },
+    "75": {
+      "id": "75",
+      "name": "20 Av",
+      "paths": [
+        "path4708",
+        "path4709"
+      ]
+    },
+    "76": {
+      "id": "76",
+      "name": "Bay Pkwy",
+      "paths": [
+        "path4710",
+        "path4711"
+      ]
+    },
+    "77": {
+      "id": "77",
+      "name": "Kings Hwy",
+      "paths": [
+        "path4299",
+        "path4300"
+      ]
+    },
+    "78": {
+      "id": "78",
+      "name": "Avenue U",
+      "paths": [
+        "path5597",
+        "path5598"
+      ]
+    },
+    "79": {
+      "id": "79",
+      "name": "86 St",
+      "paths": [
+        "path5599",
+        "path5600"
+      ]
+    },
+    "80": {
+      "id": "80",
+      "name": "121 St",
+      "paths": [
+        "path4159",
+        "path5698",
+        "path5699",
+        "path5700",
+        "path5701",
+        "path3943"
+      ]
+    },
+    "81": {
+      "id": "81",
+      "name": "111 St",
+      "paths": [
+        "path5738",
+        "path5739"
+      ]
+    },
+    "82": {
+      "id": "82",
+      "name": "104 St",
+      "paths": [
+        "path4158",
+        "path5694",
+        "path5695",
+        "path5696",
+        "path5697",
+        "path3942"
+      ]
+    },
+    "83": {
+      "id": "83",
+      "name": "Woodhaven Blvd",
+      "paths": [
+        "path4157",
+        "path5690",
+        "path5691",
+        "path5692",
+        "path5693"
+      ]
+    },
+    "84": {
+      "id": "84",
+      "name": "85 St-Forest Pkwy",
+      "paths": [
+        "path5688",
+        "path5689"
+      ]
+    },
+    "85": {
+      "id": "85",
+      "name": "75 St-Elderts Ln",
+      "paths": [
+        "path3960",
+        "path5716",
+        "path5717",
+        "path5718",
+        "path5719",
+        "path3941"
+      ]
+    },
+    "86": {
+      "id": "86",
+      "name": "Cypress Hills",
+      "paths": [
+        "path5714",
+        "path5715"
+      ]
+    },
+    "87": {
+      "id": "87",
+      "name": "Crescent St",
+      "paths": [
+        "path3959",
+        "path5710",
+        "path5711",
+        "path5712",
+        "path5713"
+      ]
+    },
+    "88": {
+      "id": "88",
+      "name": "Norwood Av",
+      "paths": [
+        "path5706",
+        "path5707",
+        "path5708",
+        "path5709",
+        "path3935"
+      ]
+    },
+    "89": {
+      "id": "89",
+      "name": "Cleveland St",
+      "paths": [
+        "path5720",
+        "path5721"
+      ]
+    },
+    "90": {
+      "id": "90",
+      "name": "Van Siclen Av",
+      "paths": [
+        "path5702",
+        "path5703",
+        "path5704",
+        "path5705",
+        "path3936"
+      ]
+    },
+    "91": {
+      "id": "91",
+      "name": "Alabama Av",
+      "paths": [
+        "path4162",
+        "path5722",
+        "path5723",
+        "path5724",
+        "path5725"
+      ]
+    },
+    "93": {
+      "id": "93",
+      "name": "Chauncey St",
+      "paths": [
+        "path3937",
+        "path4556",
+        "path4557",
+        "path4568",
+        "path4569"
+      ]
+    },
+    "94": {
+      "id": "94",
+      "name": "Halsey St",
+      "paths": [
+        "path5640",
+        "path5641"
+      ]
+    },
+    "95": {
+      "id": "95",
+      "name": "Gates Av",
+      "paths": [
+        "path3938",
+        "path4566",
+        "path4567",
+        "path4554",
+        "path4555"
+      ]
+    },
+    "96": {
+      "id": "96",
+      "name": "Kosciuszko St",
+      "paths": [
+        "path4543",
+        "path4544"
+      ]
+    },
+    "97": {
+      "id": "97",
+      "name": "Myrtle Av",
+      "paths": [
+        "path3956",
+        "path4489",
+        "path4490",
+        "path4529",
+        "path4530",
+        "path4558",
+        "path4559"
+      ]
+    },
+    "98": {
+      "id": "98",
+      "name": "Flushing Av",
+      "paths": [
+        "path3962",
+        "path4546",
+        "path4547",
+        "path4584",
+        "path4585"
+      ]
+    },
+    "99": {
+      "id": "99",
+      "name": "Lorimer St",
+      "paths": [
+        "path3961",
+        "path4548",
+        "path4550",
+        "path4549",
+        "path4590",
+        "path4591"
+      ]
+    },
+    "100": {
+      "id": "100",
+      "name": "Hewes St",
+      "paths": [
+        "path3957",
+        "path4553",
+        "path4552",
+        "path4592",
+        "path4593"
+      ]
+    },
+    "101": {
+      "id": "101",
+      "name": "Marcy Av",
+      "paths": [
+        "path3955",
+        "path4527",
+        "path4528",
+        "path4588",
+        "path4589",
+        "path4560",
+        "path4561"
+      ]
+    },
+    "103": {
+      "id": "103",
+      "name": "Bowery",
+      "paths": [
+        "path3953",
+        "path4562",
+        "path4563",
+        "path4535",
+        "path4536"
+      ]
+    },
+    "107": {
+      "id": "107",
+      "name": "Broad St",
+      "paths": [
+        "path3978",
+        "path4533",
+        "path4534",
+        "path4574",
+        "path4575"
+      ]
+    },
+    "108": {
+      "id": "108",
+      "name": "Middle Village - Metropolitan Av",
+      "paths": [
+        "path4503",
+        "path4504"
+      ]
+    },
+    "109": {
+      "id": "109",
+      "name": "Fresh Pond Rd",
+      "paths": [
+        "path4501",
+        "path4502"
+      ]
+    },
+    "110": {
+      "id": "110",
+      "name": "Forest Av",
+      "paths": [
+        "path4499",
+        "path4500"
+      ]
+    },
+    "111": {
+      "id": "111",
+      "name": "Seneva Av",
+      "paths": [
+        "path4497",
+        "path4498"
+      ]
+    },
+    "113": {
+      "id": "113",
+      "name": "Knickerbocker Av",
+      "paths": [
+        "path4493",
+        "path4494"
+      ]
+    },
+    "114": {
+      "id": "114",
+      "name": "Central Av",
+      "paths": [
+        "path4491",
+        "path4492"
+      ]
+    },
+    "118": {
+      "id": "118",
+      "name": "3 Av",
+      "paths": [
+        "path4197",
+        "path4198"
+      ]
+    },
+    "119": {
+      "id": "119",
+      "name": "1 Av",
+      "paths": [
+        "path4199",
+        "path4200"
+      ]
+    },
+    "120": {
+      "id": "120",
+      "name": "Bedford Av",
+      "paths": [
+        "path5686",
+        "path5687"
+      ]
+    },
+    "122": {
+      "id": "122",
+      "name": "Graham Av",
+      "paths": [
+        "path5676",
+        "path5677"
+      ]
+    },
+    "123": {
+      "id": "123",
+      "name": "Grand St",
+      "paths": [
+        "path5674",
+        "path5675"
+      ]
+    },
+    "124": {
+      "id": "124",
+      "name": "Montrose Av",
+      "paths": [
+        "path5672",
+        "path5673"
+      ]
+    },
+    "125": {
+      "id": "125",
+      "name": "Morgan Av",
+      "paths": [
+        "path5670",
+        "path5671"
+      ]
+    },
+    "126": {
+      "id": "126",
+      "name": "Jefferson St",
+      "paths": [
+        "path5668",
+        "path5669"
+      ]
+    },
+    "127": {
+      "id": "127",
+      "name": "DeKalb Av",
+      "paths": [
+        "path5666",
+        "path5667"
+      ]
+    },
+    "129": {
+      "id": "129",
+      "name": "Halsey St",
+      "paths": [
+        "path4191",
+        "path4192"
+      ]
+    },
+    "130": {
+      "id": "130",
+      "name": "Wilson Av",
+      "paths": [
+        "path4189",
+        "path4190"
+      ]
+    },
+    "131": {
+      "id": "131",
+      "name": "Bushwick Av-Aberdeen St",
+      "paths": [
+        "path4187",
+        "path4188"
+      ]
+    },
+    "133": {
+      "id": "133",
+      "name": "Atlantic Av",
+      "paths": [
+        "path4175",
+        "path4176"
+      ]
+    },
+    "134": {
+      "id": "134",
+      "name": "Sutter Av",
+      "paths": [
+        "path4177",
+        "path4178"
+      ]
+    },
+    "135": {
+      "id": "135",
+      "name": "Livonia Av",
+      "paths": [
+        "path4185",
+        "path4186"
+      ]
+    },
+    "136": {
+      "id": "136",
+      "name": "New Lots Av",
+      "paths": [
+        "path4183",
+        "path4184"
+      ]
+    },
+    "137": {
+      "id": "137",
+      "name": "East 105 St",
+      "paths": [
+        "path4181",
+        "path4182"
+      ]
+    },
+    "138": {
+      "id": "138",
+      "name": "Canarsie-Rockaway Pkwy",
+      "paths": [
+        "path4179",
+        "path4180"
+      ]
+    },
+    "141": {
+      "id": "141",
+      "name": "Park Pl",
+      "paths": [
+        "path4513",
+        "path4514"
+      ]
+    },
+    "143": {
+      "id": "143",
+      "name": "Inwood-207 St",
+      "paths": [
+        "path4339",
+        "path4340"
+      ]
+    },
+    "144": {
+      "id": "144",
+      "name": "Dyckman St",
+      "paths": [
+        "path4341",
+        "path4342"
+      ]
+    },
+    "145": {
+      "id": "145",
+      "name": "190 St",
+      "paths": [
+        "path4343",
+        "path4344"
+      ]
+    },
+    "146": {
+      "id": "146",
+      "name": "181 St",
+      "paths": [
+        "path4345",
+        "path4346"
+      ]
+    },
+    "147": {
+      "id": "147",
+      "name": "175 St",
+      "paths": [
+        "path4347",
+        "path4348"
+      ]
+    },
+    "149": {
+      "id": "149",
+      "name": "163 St-Amsterdam Av",
+      "paths": [
+        "path4353",
+        "path4354"
+      ]
+    },
+    "150": {
+      "id": "150",
+      "name": "155 St",
+      "paths": [
+        "path4351",
+        "path4352"
+      ]
+    },
+    "151": {
+      "id": "151",
+      "name": "145 St",
+      "paths": [
+        "path4105",
+        "path4389",
+        "path4390",
+        "path4355",
+        "path4356",
+        "path4349",
+        "path4350",
+        "path4337",
+        "path4338"
+      ]
+    },
+    "152": {
+      "id": "152",
+      "name": "135 St",
+      "paths": [
+        "path4108",
+        "path4357",
+        "path4358",
+        "path4359",
+        "path4360"
+      ]
+    },
+    "153": {
+      "id": "153",
+      "name": "125 St",
+      "paths": [
+        "path4104",
+        "path4335",
+        "path4336",
+        "path4334",
+        "path4333",
+        "path4331",
+        "path4332",
+        "path4329",
+        "path4330"
+      ]
+    },
+    "154": {
+      "id": "154",
+      "name": "116 St",
+      "paths": [
+        "path4109",
+        "path4361",
+        "path4362",
+        "path4363",
+        "path4364"
+      ]
+    },
+    "155": {
+      "id": "155",
+      "name": "Cathedral Pkwy (110 St)",
+      "paths": [
+        "path4110",
+        "path4365",
+        "path4366",
+        "path4367",
+        "path4368"
+      ]
+    },
+    "156": {
+      "id": "156",
+      "name": "103 St",
+      "paths": [
+        "path4111",
+        "path4369",
+        "path4370",
+        "path4371",
+        "path4372"
+      ]
+    },
+    "157": {
+      "id": "157",
+      "name": "96 St",
+      "paths": [
+        "path4113",
+        "path4381",
+        "path4382",
+        "path4383",
+        "path4384"
+      ]
+    },
+    "158": {
+      "id": "158",
+      "name": "86 St",
+      "paths": [
+        "path4112",
+        "path4373",
+        "path4374",
+        "path4375",
+        "path4376"
+      ]
+    },
+    "159": {
+      "id": "159",
+      "name": "81 St-Museum of Natural History",
+      "paths": [
+        "path4114",
+        "path4379",
+        "path4380",
+        "path4377",
+        "path4378"
+      ]
+    },
+    "160": {
+      "id": "160",
+      "name": "72 St",
+      "paths": [
+        "path4115",
+        "path4385",
+        "path4386",
+        "path4387",
+        "path4388"
+      ]
+    },
+    "162": {
+      "id": "162",
+      "name": "50 St",
+      "paths": [
+        "path4070",
+        "path4237",
+        "path4238",
+        "path4239",
+        "path4240"
+      ]
+    },
+    "163": {
+      "id": "163",
+      "name": "42 St-Port Authority Bus Terminal",
+      "paths": [
+        "path4069",
+        "path4233",
+        "path4234",
+        "path4231",
+        "path4232",
+        "path4235",
+        "path4236"
+      ]
+    },
+    "164": {
+      "id": "164",
+      "name": "34 St-Penn Station",
+      "paths": [
+        "path4067",
+        "path4223",
+        "path4224",
+        "path4221",
+        "path4222",
+        "path4229",
+        "path4230"
+      ]
+    },
+    "165": {
+      "id": "165",
+      "name": "23 st",
+      "paths": [
+        "path4068",
+        "path4245",
+        "path4246",
+        "path4247",
+        "path4248"
+      ]
+    },
+    "167": {
+      "id": "167",
+      "name": "W 4 St-Wash Sq",
+      "paths": [
+        "path3887",
+        "path3986",
+        "path3985",
+        "path4213",
+        "path4214",
+        "path4209",
+        "path4210",
+        "path4205",
+        "path4206",
+        "path4207",
+        "path4208",
+        "path4211",
+        "path4212",
+        "path4277",
+        "path4278",
+        "path4311",
+        "path4312"
+      ]
+    },
+    "168": {
+      "id": "168",
+      "name": "Spring St",
+      "paths": [
+        "path3977",
+        "path4269",
+        "path4270",
+        "path4271",
+        "path4272"
+      ]
+    },
+    "169": {
+      "id": "169",
+      "name": "Canal St",
+      "paths": [
+        "path3966",
+        "path4261",
+        "path4262",
+        "path4257",
+        "path4258",
+        "path4267",
+        "path4268"
+      ]
+    },
+    "173": {
+      "id": "173",
+      "name": "High St",
+      "paths": [
+        "path4013",
+        "path5314",
+        "path5315",
+        "path5316",
+        "path5317"
+      ]
+    },
+    "175": {
+      "id": "175",
+      "name": "Hoyt-Schermerhorn Sts",
+      "paths": [
+        "path3946",
+        "path5210",
+        "path5211",
+        "path5213",
+        "path5212",
+        "path5364",
+        "path5365"
+      ]
+    },
+    "176": {
+      "id": "176",
+      "name": "Lafayette Av",
+      "paths": [
+        "path5318",
+        "path5319"
+      ]
+    },
+    "177": {
+      "id": "177",
+      "name": "Clinton-Washington Avs",
+      "paths": [
+        "path5320",
+        "path5321"
+      ]
+    },
+    "179": {
+      "id": "179",
+      "name": "Nostrand Av",
+      "paths": [
+        "path4030",
+        "path5324",
+        "path5325",
+        "path5322",
+        "path5323"
+      ]
+    },
+    "180": {
+      "id": "180",
+      "name": "Kingston-Throop Avs",
+      "paths": [
+        "path5326",
+        "path5327"
+      ]
+    },
+    "181": {
+      "id": "181",
+      "name": "Utica Av",
+      "paths": [
+        "path4031",
+        "path5330",
+        "path5331",
+        "path5328",
+        "path5329"
+      ]
+    },
+    "182": {
+      "id": "182",
+      "name": "Ralph Av",
+      "paths": [
+        "path5332",
+        "path5333"
+      ]
+    },
+    "183": {
+      "id": "183",
+      "name": "Rockaway Av",
+      "paths": [
+        "path5334",
+        "path5335"
+      ]
+    },
+    "185": {
+      "id": "185",
+      "name": "Liberty Av",
+      "paths": [
+        "path5336",
+        "path5337"
+      ]
+    },
+    "186": {
+      "id": "186",
+      "name": "Van Siclen Av",
+      "paths": [
+        "path5338",
+        "path5339"
+      ]
+    },
+    "187": {
+      "id": "187",
+      "name": "Shepherd Av",
+      "paths": [
+        "path5340",
+        "path5341"
+      ]
+    },
+    "188": {
+      "id": "188",
+      "name": "Euclid Av",
+      "paths": [
+        "path4096",
+        "path5348",
+        "path5349",
+        "path5346",
+        "path5347"
+      ]
+    },
+    "189": {
+      "id": "189",
+      "name": "Grant Av",
+      "paths": [
+        "path5356",
+        "path5357"
+      ]
+    },
+    "190": {
+      "id": "190",
+      "name": "80 St",
+      "paths": [
+        "path5354",
+        "path5355"
+      ]
+    },
+    "191": {
+      "id": "191",
+      "name": "88 St",
+      "paths": [
+        "path5350",
+        "path5351"
+      ]
+    },
+    "192": {
+      "id": "192",
+      "name": "Rockaway Blvd",
+      "paths": [
+        "path5353",
+        "path5352"
+      ]
+    },
+    "193": {
+      "id": "193",
+      "name": "104 St",
+      "paths": [
+        "path5358",
+        "path5359"
+      ]
+    },
+    "194": {
+      "id": "194",
+      "name": "111 St",
+      "paths": [
+        "path5360",
+        "path5361"
+      ]
+    },
+    "195": {
+      "id": "195",
+      "name": "Ozone Park-Lefferts Blvd",
+      "paths": [
+        "path5362",
+        "path5363"
+      ]
+    },
+    "196": {
+      "id": "196",
+      "name": "Aqueduct Racetrack",
+      "paths": [
+        "path5790",
+        "path5791"
+      ]
+    },
+    "197": {
+      "id": "197",
+      "name": "Aqueduct-N Conduit Av",
+      "paths": [
+        "path5792",
+        "path5793"
+      ]
+    },
+    "198": {
+      "id": "198",
+      "name": "Howard Beach-JFK Airport",
+      "paths": [
+        "path5788",
+        "path5789"
+      ]
+    },
+    "199": {
+      "id": "199",
+      "name": "Broad Channel",
+      "paths": [
+        "path4164",
+        "path5786",
+        "path5787",
+        "path5806",
+        "path5807"
+      ]
+    },
+    "200": {
+      "id": "200",
+      "name": "Beach 90 St",
+      "paths": [
+        "path4165",
+        "path5782",
+        "path5783",
+        "path5784",
+        "path5785"
+      ]
+    },
+    "201": {
+      "id": "201",
+      "name": "Beach 98 St",
+      "paths": [
+        "path4166",
+        "path5808",
+        "path5809",
+        "path5810",
+        "path5811"
+      ]
+    },
+    "202": {
+      "id": "202",
+      "name": "Beach 105 St",
+      "paths": [
+        "path4167",
+        "path5812",
+        "path5813",
+        "path5814",
+        "path5815"
+      ]
+    },
+    "204": {
+      "id": "204",
+      "name": "Beach 67 St",
+      "paths": [
+        "path5804",
+        "path5805"
+      ]
+    },
+    "205": {
+      "id": "205",
+      "name": "Beach 60 St",
+      "paths": [
+        "path5802",
+        "path5803"
+      ]
+    },
+    "206": {
+      "id": "206",
+      "name": "Beach 44 St",
+      "paths": [
+        "path5800",
+        "path5801"
+      ]
+    },
+    "207": {
+      "id": "207",
+      "name": "Beach 36 St",
+      "paths": [
+        "path5798",
+        "path5799"
+      ]
+    },
+    "208": {
+      "id": "208",
+      "name": "Beach 25 St",
+      "paths": [
+        "path5796",
+        "path5797"
+      ]
+    },
+    "209": {
+      "id": "209",
+      "name": "Far Rockaway-Mott Av",
+      "paths": [
+        "path5794",
+        "path5795"
+      ]
+    },
+    "210": {
+      "id": "210",
+      "name": "Norwood 205 St",
+      "paths": [
+        "path4399",
+        "path4400"
+      ]
+    },
+    "211": {
+      "id": "211",
+      "name": "Bedford Park Blvd",
+      "paths": [
+        "path4050",
+        "path4397",
+        "path4398",
+        "path4401",
+        "path4402"
+      ]
+    },
+    "212": {
+      "id": "212",
+      "name": "Kingsbridge Rd",
+      "paths": [
+        "path4049",
+        "path4403",
+        "path4404",
+        "path4405",
+        "path4406"
+      ]
+    },
+    "213": {
+      "id": "213",
+      "name": "Fordham Rd",
+      "paths": [
+        "path4048",
+        "path4407",
+        "path4408",
+        "path4409",
+        "path4410"
+      ]
+    },
+    "214": {
+      "id": "214",
+      "name": "182-183 Sts",
+      "paths": [
+        "path4047",
+        "path4411",
+        "path4412",
+        "path5605",
+        "path5606"
+      ]
+    },
+    "215": {
+      "id": "215",
+      "name": "Tremont Av",
+      "paths": [
+        "path4046",
+        "path4413",
+        "path4414",
+        "path4415",
+        "path4416"
+      ]
+    },
+    "216": {
+      "id": "216",
+      "name": "174-175 Sts",
+      "paths": [
+        "path4045",
+        "path4417",
+        "path4418",
+        "path5602",
+        "path5603"
+      ]
+    },
+    "217": {
+      "id": "217",
+      "name": "170 St",
+      "paths": [
+        "path4044",
+        "path4419",
+        "path4420",
+        "path5608",
+        "path5609"
+      ]
+    },
+    "218": {
+      "id": "218",
+      "name": "167 St",
+      "paths": [
+        "path4043",
+        "path4421",
+        "path4422",
+        "path5611",
+        "path5612"
+      ]
+    },
+    "220": {
+      "id": "220",
+      "name": "155 St",
+      "paths": [
+        "path4106",
+        "path5617",
+        "path5618",
+        "path5776",
+        "path5777"
+      ]
+    },
+    "221": {
+      "id": "221",
+      "name": "21 St-Queensbridge",
+      "paths": [
+        "path4429",
+        "path4430"
+      ]
+    },
+    "222": {
+      "id": "222",
+      "name": "Roosevelt Island",
+      "paths": [
+        "path4431",
+        "path4432"
+      ]
+    },
+    "223": {
+      "id": "223",
+      "name": "Lexington Av/63 St",
+      "paths": [
+        "path4102",
+        "path4427",
+        "path4428",
+        "path4824",
+        "path4825"
+      ]
+    },
+    "224": {
+      "id": "224",
+      "name": "57 St",
+      "paths": [
+        "path4425",
+        "path4426"
+      ]
+    },
+    "225": {
+      "id": "225",
+      "name": "47-50 Sts-Rockefeller Ctr",
+      "paths": [
+        "path4052",
+        "path4323",
+        "path4324",
+        "path4321",
+        "path4322",
+        "path4423",
+        "path4424",
+        "path4441",
+        "path4442"
+      ]
+    },
+    "228": {
+      "id": "228",
+      "name": "23 St",
+      "paths": [
+        "path3974",
+        "path4471",
+        "path4472",
+        "path4473",
+        "path4474"
+      ]
+    },
+    "231": {
+      "id": "231",
+      "name": "Grand St",
+      "paths": [
+        "path3951",
+        "path4738",
+        "path4739",
+        "path4740",
+        "path4741"
+      ]
+    },
+    "232": {
+      "id": "232",
+      "name": "2 Av",
+      "paths": [
+        "path4479",
+        "path4480"
+      ]
+    },
+    "234": {
+      "id": "234",
+      "name": "East Broadway",
+      "paths": [
+        "path4485",
+        "path4486"
+      ]
+    },
+    "235": {
+      "id": "235",
+      "name": "York St",
+      "paths": [
+        "path4309",
+        "path4310"
+      ]
+    },
+    "236": {
+      "id": "236",
+      "name": "Bergen St",
+      "paths": [
+        "path4027",
+        "path5376",
+        "path5377",
+        "path5378",
+        "path5379"
+      ]
+    },
+    "237": {
+      "id": "237",
+      "name": "Carroll St",
+      "paths": [
+        "path4023",
+        "path5380",
+        "path5381",
+        "path5382",
+        "path5383"
+      ]
+    },
+    "238": {
+      "id": "238",
+      "name": "Smith-9 Sts",
+      "paths": [
+        "path4137",
+        "path5386",
+        "path5387",
+        "path5384",
+        "path5385"
+      ]
+    },
+    "240": {
+      "id": "240",
+      "name": "7 Av",
+      "paths": [
+        "path4138",
+        "path5392",
+        "path5393",
+        "path5394",
+        "path5395"
+      ]
+    },
+    "241": {
+      "id": "241",
+      "name": "15 St-Prospect Park",
+      "paths": [
+        "path4139",
+        "path5372",
+        "path5373",
+        "path5374",
+        "path5375"
+      ]
+    },
+    "242": {
+      "id": "242",
+      "name": "Fort Hamilton Pkwy",
+      "paths": [
+        "path4140",
+        "path5368",
+        "path5369",
+        "path5370",
+        "path5371"
+      ]
+    },
+    "243": {
+      "id": "243",
+      "name": "Church Av",
+      "paths": [
+        "path4141",
+        "path4285",
+        "path4286",
+        "path5366",
+        "path5367"
+      ]
+    },
+    "244": {
+      "id": "244",
+      "name": "Ditmas Av",
+      "paths": [
+        "path4283",
+        "path4284"
+      ]
+    },
+    "245": {
+      "id": "245",
+      "name": "18 Av",
+      "paths": [
+        "path4287",
+        "path4288"
+      ]
+    },
+    "246": {
+      "id": "246",
+      "name": "Avenue I",
+      "paths": [
+        "path4289",
+        "path4290"
+      ]
+    },
+    "247": {
+      "id": "247",
+      "name": "Bay Pkwy",
+      "paths": [
+        "path4291",
+        "path4292"
+      ]
+    },
+    "248": {
+      "id": "248",
+      "name": "Avenue N",
+      "paths": [
+        "path4293",
+        "path4294"
+      ]
+    },
+    "249": {
+      "id": "249",
+      "name": "Avenue P",
+      "paths": [
+        "path4295",
+        "path4296"
+      ]
+    },
+    "250": {
+      "id": "250",
+      "name": "King Hwy",
+      "paths": [
+        "path4297",
+        "path4298"
+      ]
+    },
+    "251": {
+      "id": "251",
+      "name": "Avenue U",
+      "paths": [
+        "path4301",
+        "path4302"
+      ]
+    },
+    "252": {
+      "id": "252",
+      "name": "Avenue X",
+      "paths": [
+        "path4303",
+        "path4304"
+      ]
+    },
+    "253": {
+      "id": "253",
+      "name": "Neptune Av",
+      "paths": [
+        "path4305",
+        "path4306"
+      ]
+    },
+    "254": {
+      "id": "254",
+      "name": "Jamaica-179 St",
+      "paths": [
+        "path5764",
+        "path5765"
+      ]
+    },
+    "255": {
+      "id": "255",
+      "name": "169 St",
+      "paths": [
+        "path5766",
+        "path5767"
+      ]
+    },
+    "256": {
+      "id": "256",
+      "name": "Parsons Blvd",
+      "paths": [
+        "path5768",
+        "path5769"
+      ]
+    },
+    "257": {
+      "id": "257",
+      "name": "Sutphin Blvd",
+      "paths": [
+        "path5770",
+        "path5771"
+      ]
+    },
+    "258": {
+      "id": "258",
+      "name": "Briarwood",
+      "paths": [
+        "path5772",
+        "path5773"
+      ]
+    },
+    "259": {
+      "id": "259",
+      "name": "Kew Gardens-Union Tpke",
+      "paths": [
+        "path4089",
+        "path4435",
+        "path4436",
+        "path5762",
+        "path5763"
+      ]
+    },
+    "260": {
+      "id": "260",
+      "name": "75 Av",
+      "paths": [
+        "path5774",
+        "path5775"
+      ]
+    },
+    "261": {
+      "id": "261",
+      "name": "Forest Hills-71 Av",
+      "paths": [
+        "path4092",
+        "path4866",
+        "path4867",
+        "path4864",
+        "path4865",
+        "path4439",
+        "path4440",
+        "path4437",
+        "path4438"
+      ]
+    },
+    "262": {
+      "id": "262",
+      "name": "67 Av",
+      "paths": [
+        "path4091",
+        "path4868",
+        "path4869",
+        "path4870",
+        "path4871"
+      ]
+    },
+    "263": {
+      "id": "263",
+      "name": "63 Dr-Rego Park",
+      "paths": [
+        "path4090",
+        "path4874",
+        "path4875",
+        "path4872",
+        "path4873"
+      ]
+    },
+    "264": {
+      "id": "264",
+      "name": "Woodhaven Blvd",
+      "paths": [
+        "path4088",
+        "path4880",
+        "path4881",
+        "path4882",
+        "path4883"
+      ]
+    },
+    "265": {
+      "id": "265",
+      "name": "Grand Av-Newtown",
+      "paths": [
+        "path4087",
+        "path4878",
+        "path4879",
+        "path4876",
+        "path4877"
+      ]
+    },
+    "266": {
+      "id": "266",
+      "name": "Elmhurst Av",
+      "paths": [
+        "path4086",
+        "path4886",
+        "path4887",
+        "path4884",
+        "path4885"
+      ]
+    },
+    "268": {
+      "id": "268",
+      "name": "65 St",
+      "paths": [
+        "path4085",
+        "path4856",
+        "path4857",
+        "path4854",
+        "path4855"
+      ]
+    },
+    "269": {
+      "id": "269",
+      "name": "Northern Blvd",
+      "paths": [
+        "path4083",
+        "path4850",
+        "path4851",
+        "path4852",
+        "path4853"
+      ]
+    },
+    "270": {
+      "id": "270",
+      "name": "46 St",
+      "paths": [
+        "path4084",
+        "path4848",
+        "path4849",
+        "path4469",
+        "path4470"
+      ]
+    },
+    "271": {
+      "id": "271",
+      "name": "Steinway St",
+      "paths": [
+        "path4081",
+        "path4846",
+        "path4847",
+        "path4467",
+        "path4468"
+      ]
+    },
+    "272": {
+      "id": "272",
+      "name": "36 St",
+      "paths": [
+        "path4082",
+        "path4844",
+        "path4845",
+        "path4465",
+        "path4466"
+      ]
+    },
+    "273": {
+      "id": "273",
+      "name": "Queens Plaza",
+      "paths": [
+        "path4073",
+        "path4842",
+        "path4843",
+        "path4463",
+        "path4464",
+        "path4251",
+        "path4252"
+      ]
+    },
+    "276": {
+      "id": "276",
+      "name": "5 Av/53 St",
+      "paths": [
+        "path4094",
+        "path4443",
+        "path4444",
+        "path4243",
+        "path4244"
+      ]
+    },
+    "277": {
+      "id": "277",
+      "name": "7 Av",
+      "paths": [
+        "path4064",
+        "path4393",
+        "path4394",
+        "path4391",
+        "path4392",
+        "path4241",
+        "path4242"
+      ]
+    },
+    "278": {
+      "id": "278",
+      "name": "Jamaica Center-Parsons/Archer",
+      "paths": [
+        "path4098",
+        "path4525",
+        "path4526",
+        "path4521",
+        "path4522",
+        "path4570",
+        "path4571"
+      ]
+    },
+    "279": {
+      "id": "279",
+      "name": "Sutphin Blvd-Archer Av-JFK Airport",
+      "paths": [
+        "path4097",
+        "path4169",
+        "path4170",
+        "path4171",
+        "path4172",
+        "path4580",
+        "path4581"
+      ]
+    },
+    "280": {
+      "id": "280",
+      "name": "Jamaica-Van Wyck",
+      "paths": [
+        "path4255",
+        "path4256"
+      ]
+    },
+    "282": {
+      "id": "282",
+      "name": "21 St",
+      "paths": [
+        "path5396",
+        "path5397"
+      ]
+    },
+    "283": {
+      "id": "283",
+      "name": "Greenpoint Av",
+      "paths": [
+        "path5684",
+        "path5685"
+      ]
+    },
+    "284": {
+      "id": "284",
+      "name": "Nassau Av",
+      "paths": [
+        "path5682",
+        "path5683"
+      ]
+    },
+    "286": {
+      "id": "286",
+      "name": "Broadway",
+      "paths": [
+        "path5758",
+        "path5759"
+      ]
+    },
+    "287": {
+      "id": "287",
+      "name": "Flushing Av",
+      "paths": [
+        "path5756",
+        "path5757"
+      ]
+    },
+    "288": {
+      "id": "288",
+      "name": "Myrtle-Willoughby Avs",
+      "paths": [
+        "path5754",
+        "path5755"
+      ]
+    },
+    "289": {
+      "id": "289",
+      "name": "Bedford-Nostrand Avs",
+      "paths": [
+        "path5752",
+        "path5753"
+      ]
+    },
+    "290": {
+      "id": "290",
+      "name": "Classon Av",
+      "paths": [
+        "path5750",
+        "path5751"
+      ]
+    },
+    "291": {
+      "id": "291",
+      "name": "Clinton-Washington Avs",
+      "paths": [
+        "path5748",
+        "path5749"
+      ]
+    },
+    "292": {
+      "id": "292",
+      "name": "Fulton St",
+      "paths": [
+        "path5746",
+        "path5747"
+      ]
+    },
+    "293": {
+      "id": "293",
+      "name": "Van Cortlandt Park-242 St",
+      "paths": [
+        "path5068",
+        "path5069"
+      ]
+    },
+    "294": {
+      "id": "294",
+      "name": "238 St",
+      "paths": [
+        "path5070",
+        "path5071"
+      ]
+    },
+    "295": {
+      "id": "295",
+      "name": "231 St",
+      "paths": [
+        "path5072",
+        "path5073"
+      ]
+    },
+    "296": {
+      "id": "296",
+      "name": "Marble Hill-225 St",
+      "paths": [
+        "path5074",
+        "path5075"
+      ]
+    },
+    "297": {
+      "id": "297",
+      "name": "215 St",
+      "paths": [
+        "path5076",
+        "path5077"
+      ]
+    },
+    "298": {
+      "id": "298",
+      "name": "207 St",
+      "paths": [
+        "path5078",
+        "path5079"
+      ]
+    },
+    "299": {
+      "id": "299",
+      "name": "Dyckman St",
+      "paths": [
+        "path5080",
+        "path5081"
+      ]
+    },
+    "300": {
+      "id": "300",
+      "name": "191 St",
+      "paths": [
+        "path5082",
+        "path5083"
+      ]
+    },
+    "301": {
+      "id": "301",
+      "name": "181 St",
+      "paths": [
+        "path5084",
+        "path5085"
+      ]
+    },
+    "303": {
+      "id": "303",
+      "name": "157 St",
+      "paths": [
+        "path5092",
+        "path5093"
+      ]
+    },
+    "304": {
+      "id": "304",
+      "name": "145 St",
+      "paths": [
+        "path5066",
+        "path5067"
+      ]
+    },
+    "305": {
+      "id": "305",
+      "name": "137 St-City College",
+      "paths": [
+        "path5064",
+        "path5065"
+      ]
+    },
+    "306": {
+      "id": "306",
+      "name": "125 St",
+      "paths": [
+        "path5062",
+        "path5063"
+      ]
+    },
+    "307": {
+      "id": "307",
+      "name": "116 St-Columbia University",
+      "paths": [
+        "path5060",
+        "path5061"
+      ]
+    },
+    "308": {
+      "id": "308",
+      "name": "Cathedral Pkwy (110 St)",
+      "paths": [
+        "path5058",
+        "path5059"
+      ]
+    },
+    "309": {
+      "id": "309",
+      "name": "103 St",
+      "paths": [
+        "path5056",
+        "path5057"
+      ]
+    },
+    "310": {
+      "id": "310",
+      "name": "96 St",
+      "paths": [
+        "path4059",
+        "path5054",
+        "path5055",
+        "path5094",
+        "path5095",
+        "path5098",
+        "path5099"
+      ]
+    },
+    "311": {
+      "id": "311",
+      "name": "86 St",
+      "paths": [
+        "path5048",
+        "path5049"
+      ]
+    },
+    "312": {
+      "id": "312",
+      "name": "79 St",
+      "paths": [
+        "path5046",
+        "path5047"
+      ]
+    },
+    "313": {
+      "id": "313",
+      "name": "72 St",
+      "paths": [
+        "path4058",
+        "path5050",
+        "path5051",
+        "path5044",
+        "path5045",
+        "path5052",
+        "path5053"
+      ]
+    },
+    "314": {
+      "id": "314",
+      "name": "66 St-Lincoln Center",
+      "paths": [
+        "path5038",
+        "path5039"
+      ]
+    },
+    "316": {
+      "id": "316",
+      "name": "50 St",
+      "paths": [
+        "path5034",
+        "path5035"
+      ]
+    },
+    "318": {
+      "id": "318",
+      "name": "34 St-Penn Station",
+      "paths": [
+        "path4066",
+        "path5028",
+        "path5029",
+        "path5026",
+        "path5027",
+        "path5030",
+        "path5031"
+      ]
+    },
+    "319": {
+      "id": "319",
+      "name": "28 St",
+      "paths": [
+        "path5126",
+        "path5127"
+      ]
+    },
+    "320": {
+      "id": "320",
+      "name": "23 St",
+      "paths": [
+        "path5122",
+        "path5123"
+      ]
+    },
+    "321": {
+      "id": "321",
+      "name": "18 St",
+      "paths": [
+        "path5124",
+        "path5125"
+      ]
+    },
+    "323": {
+      "id": "323",
+      "name": "Christopher St-Stonewall",
+      "paths": [
+        "path4602",
+        "path4603"
+      ]
+    },
+    "324": {
+      "id": "324",
+      "name": "Houston St",
+      "paths": [
+        "path4600",
+        "path4601"
+      ]
+    },
+    "325": {
+      "id": "325",
+      "name": "Canal St",
+      "paths": [
+        "path4598",
+        "path4599"
+      ]
+    },
+    "326": {
+      "id": "326",
+      "name": "Franklin St",
+      "paths": [
+        "path4604",
+        "path4605"
+      ]
+    },
+    "327": {
+      "id": "327",
+      "name": "Chambers St",
+      "paths": [
+        "path3984",
+        "path4596",
+        "path4597",
+        "path5020",
+        "path5021",
+        "path5024",
+        "path5025"
+      ]
+    },
+    "328": {
+      "id": "328",
+      "name": "WTC Cortlandt",
+      "paths": [
+        "path5664",
+        "path5665"
+      ]
+    },
+    "329": {
+      "id": "329",
+      "name": "Rector St",
+      "paths": [
+        "path5662",
+        "path5663"
+      ]
+    },
+    "333": {
+      "id": "333",
+      "name": "Wall St",
+      "paths": [
+        "path4014",
+        "path5310",
+        "path5311",
+        "path5312",
+        "path5313"
+      ]
+    },
+    "334": {
+      "id": "334",
+      "name": "Clark St",
+      "paths": [
+        "path4015",
+        "path5010",
+        "path5011",
+        "path5012",
+        "path5013"
+      ]
+    },
+    "336": {
+      "id": "336",
+      "name": "Hoyt St",
+      "paths": [
+        "path3948",
+        "path4923",
+        "path4922",
+        "path4920",
+        "path4921"
+      ]
+    },
+    "337": {
+      "id": "337",
+      "name": "Nevins St",
+      "paths": [
+        "path3947",
+        "path4926",
+        "path4927",
+        "path4930",
+        "path4931",
+        "path4918",
+        "path4919",
+        "path4910",
+        "path4911"
+      ]
+    },
+    "339": {
+      "id": "339",
+      "name": "Bergen St",
+      "paths": [
+        "path4019",
+        "path4914",
+        "path4915",
+        "path4916",
+        "path4917"
+      ]
+    },
+    "340": {
+      "id": "340",
+      "name": "Grand Army Plaza",
+      "paths": [
+        "path4022",
+        "path4962",
+        "path4963",
+        "path4960",
+        "path4961"
+      ]
+    },
+    "341": {
+      "id": "341",
+      "name": "Eastern Pkwy-Brooklyn Museum",
+      "paths": [
+        "path4021",
+        "path4958",
+        "path4959",
+        "path4956",
+        "path4957"
+      ]
+    },
+    "343": {
+      "id": "343",
+      "name": "Nostrand Av",
+      "paths": [
+        "path4936",
+        "path4937"
+      ]
+    },
+    "344": {
+      "id": "344",
+      "name": "Kingston Av",
+      "paths": [
+        "path4938",
+        "path4939"
+      ]
+    },
+    "345": {
+      "id": "345",
+      "name": "Crown Hts-Utica Av",
+      "paths": [
+        "path4160",
+        "path4966",
+        "path4967",
+        "path4940",
+        "path4941"
+      ]
+    },
+    "346": {
+      "id": "346",
+      "name": "Sutter Av-Rutland Rd",
+      "paths": [
+        "path4942",
+        "path4943"
+      ]
+    },
+    "347": {
+      "id": "347",
+      "name": "Saratoga Av",
+      "paths": [
+        "path4944",
+        "path4945"
+      ]
+    },
+    "348": {
+      "id": "348",
+      "name": "Rockaway Av",
+      "paths": [
+        "path4946",
+        "path4947"
+      ]
+    },
+    "349": {
+      "id": "349",
+      "name": "Junius St",
+      "paths": [
+        "path4948",
+        "path4949"
+      ]
+    },
+    "350": {
+      "id": "350",
+      "name": "Pennsylvania Av",
+      "paths": [
+        "path4950",
+        "path4951"
+      ]
+    },
+    "351": {
+      "id": "351",
+      "name": "Van Siclen Av",
+      "paths": [
+        "path4952",
+        "path4953"
+      ]
+    },
+    "352": {
+      "id": "352",
+      "name": "New Lots Av",
+      "paths": [
+        "path4954",
+        "path4955"
+      ]
+    },
+    "353": {
+      "id": "353",
+      "name": "President St-Medgars Evers College",
+      "paths": [
+        "path4143",
+        "path4970",
+        "path4971",
+        "path4972",
+        "path4973"
+      ]
+    },
+    "354": {
+      "id": "354",
+      "name": "Sterling St",
+      "paths": [
+        "path4144",
+        "path4974",
+        "path4975",
+        "path4976",
+        "path4977"
+      ]
+    },
+    "355": {
+      "id": "355",
+      "name": "Winthrop St",
+      "paths": [
+        "path4151",
+        "path4978",
+        "path4979",
+        "path4980",
+        "path4981"
+      ]
+    },
+    "356": {
+      "id": "356",
+      "name": "Church Av",
+      "paths": [
+        "path4152",
+        "path4982",
+        "path4983",
+        "path4984",
+        "path4985"
+      ]
+    },
+    "357": {
+      "id": "357",
+      "name": "Beverly Rd",
+      "paths": [
+        "path4153",
+        "path4986",
+        "path4987",
+        "path4988",
+        "path4989"
+      ]
+    },
+    "358": {
+      "id": "358",
+      "name": "Newkirk Av-Little Haiti",
+      "paths": [
+        "path4154",
+        "path4990",
+        "path4991",
+        "path4992",
+        "path4993"
+      ]
+    },
+    "359": {
+      "id": "359",
+      "name": "Flatbush Av-Brooklyn College",
+      "paths": [
+        "path4155",
+        "path4994",
+        "path4995",
+        "path4996",
+        "path4997"
+      ]
+    },
+    "360": {
+      "id": "360",
+      "name": "Pelham Bay Park",
+      "paths": [
+        "path5834",
+        "path5743",
+        "path5745",
+        "path5848",
+        "path5849"
+      ]
+    },
+    "361": {
+      "id": "361",
+      "name": "Buhre Av",
+      "paths": [
+        "path5833",
+        "path5741",
+        "path5740",
+        "path5846",
+        "path5847",
+        "path5742"
+      ]
+    },
+    "362": {
+      "id": "362",
+      "name": "Middletown Rd",
+      "paths": [
+        "path5832",
+        "path5545",
+        "path5546",
+        "path5547",
+        "path5838",
+        "path5839"
+      ]
+    },
+    "363": {
+      "id": "363",
+      "name": "Westchester Sq-E Tremont Av",
+      "paths": [
+        "path5548",
+        "path5549",
+        "path5550",
+        "path5831",
+        "path5840",
+        "path5841"
+      ]
+    },
+    "364": {
+      "id": "364",
+      "name": "Zerega Av",
+      "paths": [
+        "path5551",
+        "path5552",
+        "path5553",
+        "path5830",
+        "path5842",
+        "path5843"
+      ]
+    },
+    "365": {
+      "id": "365",
+      "name": "Castle Hill Av",
+      "paths": [
+        "path5554",
+        "path5555",
+        "path5556",
+        "path5829",
+        "path5844",
+        "path5845"
+      ]
+    },
+    "366": {
+      "id": "366",
+      "name": "Parkchester",
+      "paths": [
+        "path5557",
+        "path5558",
+        "path5559",
+        "path5827",
+        "path5563",
+        "path5564"
+      ]
+    },
+    "367": {
+      "id": "367",
+      "name": "St Lawrence Av",
+      "paths": [
+        "path5565",
+        "path5566"
+      ]
+    },
+    "368": {
+      "id": "368",
+      "name": "Morrison Av-Soundview",
+      "paths": [
+        "path5567",
+        "path5568"
+      ]
+    },
+    "369": {
+      "id": "369",
+      "name": "Elder Av",
+      "paths": [
+        "path5569",
+        "path5570"
+      ]
+    },
+    "370": {
+      "id": "370",
+      "name": "Whitlock Av",
+      "paths": [
+        "path5543",
+        "path5544"
+      ]
+    },
+    "371": {
+      "id": "371",
+      "name": "Hunts Point Av",
+      "paths": [
+        "path5560",
+        "path5561",
+        "path5562",
+        "path5828",
+        "path5571",
+        "path5572"
+      ]
+    },
+    "372": {
+      "id": "372",
+      "name": "Longwood Av",
+      "paths": [
+        "path5573",
+        "path5574"
+      ]
+    },
+    "373": {
+      "id": "373",
+      "name": "E 149 St",
+      "paths": [
+        "path5541",
+        "path5542"
+      ]
+    },
+    "374": {
+      "id": "374",
+      "name": "E 143 St-St Mary's St",
+      "paths": [
+        "path5539",
+        "path5540"
+      ]
+    },
+    "375": {
+      "id": "375",
+      "name": "Cypress Av",
+      "paths": [
+        "path5537",
+        "path5538"
+      ]
+    },
+    "376": {
+      "id": "376",
+      "name": "Brook Av",
+      "paths": [
+        "path5535",
+        "path5536"
+      ]
+    },
+    "377": {
+      "id": "377",
+      "name": "3 Av-138 St",
+      "paths": [
+        "path5835",
+        "path5528",
+        "path5529",
+        "path5530",
+        "path5533",
+        "path5534"
+      ]
+    },
+    "378": {
+      "id": "378",
+      "name": "Woodlawn",
+      "paths": [
+        "path5448",
+        "path5449"
+      ]
+    },
+    "379": {
+      "id": "379",
+      "name": "Mosholu Pkwy",
+      "paths": [
+        "path5446",
+        "path5447"
+      ]
+    },
+    "380": {
+      "id": "380",
+      "name": "Bedford Park Blvd-Lehman College",
+      "paths": [
+        "path5444",
+        "path5445"
+      ]
+    },
+    "381": {
+      "id": "381",
+      "name": "Kingsbridge Rd",
+      "paths": [
+        "path5442",
+        "path5443"
+      ]
+    },
+    "382": {
+      "id": "382",
+      "name": "Fordham Rd",
+      "paths": [
+        "path5440",
+        "path5441"
+      ]
+    },
+    "383": {
+      "id": "383",
+      "name": "183 St",
+      "paths": [
+        "path5438",
+        "path5439"
+      ]
+    },
+    "384": {
+      "id": "384",
+      "name": "Burnside Av",
+      "paths": [
+        "path5436",
+        "path5437"
+      ]
+    },
+    "385": {
+      "id": "385",
+      "name": "176 St",
+      "paths": [
+        "path5434",
+        "path5435"
+      ]
+    },
+    "386": {
+      "id": "386",
+      "name": "Mt Eden Av",
+      "paths": [
+        "path5433",
+        "path5432"
+      ]
+    },
+    "387": {
+      "id": "387",
+      "name": "170 St",
+      "paths": [
+        "path5430",
+        "path5431"
+      ]
+    },
+    "388": {
+      "id": "388",
+      "name": "167 St",
+      "paths": [
+        "path5428",
+        "path5429"
+      ]
+    },
+    "391": {
+      "id": "391",
+      "name": "138 St-Grand Concourse",
+      "paths": [
+        "path4040",
+        "path5642",
+        "path5643",
+        "path5644",
+        "path5452",
+        "path5453"
+      ]
+    },
+    "392": {
+      "id": "392",
+      "name": "125 St",
+      "paths": [
+        "path4039",
+        "path5450",
+        "path5451",
+        "path5424",
+        "path5425",
+        "path5531",
+        "path5532"
+      ]
+    },
+    "393": {
+      "id": "393",
+      "name": "116 St",
+      "paths": [
+        "path5575",
+        "path5576"
+      ]
+    },
+    "394": {
+      "id": "394",
+      "name": "110 St",
+      "paths": [
+        "path5577",
+        "path5578"
+      ]
+    },
+    "395": {
+      "id": "395",
+      "name": "103 St",
+      "paths": [
+        "path5579",
+        "path5580"
+      ]
+    },
+    "396": {
+      "id": "396",
+      "name": "96 St",
+      "paths": [
+        "path5581",
+        "path5582"
+      ]
+    },
+    "397": {
+      "id": "397",
+      "name": "86 St",
+      "paths": [
+        "path4038",
+        "path5420",
+        "path5421",
+        "path5418",
+        "path5419",
+        "path5422",
+        "path5423"
+      ]
+    },
+    "398": {
+      "id": "398",
+      "name": "77 St",
+      "paths": [
+        "path5583",
+        "path5584"
+      ]
+    },
+    "399": {
+      "id": "399",
+      "name": "68 St-Hunter College",
+      "paths": [
+        "path5585",
+        "path5586"
+      ]
+    },
+    "403": {
+      "id": "403",
+      "name": "33 St",
+      "paths": [
+        "path5408",
+        "path5409"
+      ]
+    },
+    "404": {
+      "id": "404",
+      "name": "28 St",
+      "paths": [
+        "path5406",
+        "path5407"
+      ]
+    },
+    "405": {
+      "id": "405",
+      "name": "23 St-Baruch College",
+      "paths": [
+        "path5404",
+        "path5405"
+      ]
+    },
+    "407": {
+      "id": "407",
+      "name": "Astor Pl",
+      "paths": [
+        "path5595",
+        "path5596"
+      ]
+    },
+    "409": {
+      "id": "409",
+      "name": "Spring St",
+      "paths": [
+        "path5589",
+        "path5590"
+      ]
+    },
+    "413": {
+      "id": "413",
+      "name": "Wall St",
+      "paths": [
+        "path3979",
+        "path5136",
+        "path5137",
+        "path5138",
+        "path5139"
+      ]
+    },
+    "414": {
+      "id": "414",
+      "name": "Bowling Green",
+      "paths": [
+        "path4161",
+        "path5132",
+        "path5133",
+        "path5134",
+        "path5135"
+      ]
+    },
+    "416": {
+      "id": "416",
+      "name": "Wakefield-241 St",
+      "paths": [
+        "path5526",
+        "path5527"
+      ]
+    },
+    "417": {
+      "id": "417",
+      "name": "Nereid Av",
+      "paths": [
+        "path4121",
+        "path5508",
+        "path5509",
+        "path5510",
+        "path5511"
+      ]
+    },
+    "418": {
+      "id": "418",
+      "name": "233 St",
+      "paths": [
+        "path4120",
+        "path5512",
+        "path5513",
+        "path5514",
+        "path5515"
+      ]
+    },
+    "419": {
+      "id": "419",
+      "name": "225 St",
+      "paths": [
+        "path4119",
+        "path5504",
+        "path5505",
+        "path5506",
+        "path5507"
+      ]
+    },
+    "420": {
+      "id": "420",
+      "name": "219 St",
+      "paths": [
+        "path4118",
+        "path5500",
+        "path5501",
+        "path5502",
+        "path5503"
+      ]
+    },
+    "421": {
+      "id": "421",
+      "name": "Gun Hill Rd",
+      "paths": [
+        "path4117",
+        "path5496",
+        "path5497",
+        "path5498",
+        "path5499"
+      ]
+    },
+    "422": {
+      "id": "422",
+      "name": "Burke Av",
+      "paths": [
+        "path4122",
+        "path5492",
+        "path5493",
+        "path5494",
+        "path5495"
+      ]
+    },
+    "423": {
+      "id": "423",
+      "name": "Allerton Av",
+      "paths": [
+        "path4123",
+        "path5488",
+        "path5489",
+        "path5490",
+        "path5491"
+      ]
+    },
+    "424": {
+      "id": "424",
+      "name": "Pelham Pkwy",
+      "paths": [
+        "path4124",
+        "path5484",
+        "path5485",
+        "path5486",
+        "path5487"
+      ]
+    },
+    "425": {
+      "id": "425",
+      "name": "Bronx Park East",
+      "paths": [
+        "path4125",
+        "path5480",
+        "path5481",
+        "path5482",
+        "path5483"
+      ]
+    },
+    "426": {
+      "id": "426",
+      "name": "E 180 St",
+      "paths": [
+        "path4126",
+        "path5476",
+        "path5477",
+        "path5479",
+        "path5478"
+      ]
+    },
+    "427": {
+      "id": "427",
+      "name": "West Farms Sq-E Tremont Av",
+      "paths": [
+        "path4127",
+        "path5474",
+        "path5475",
+        "path5619",
+        "path5620",
+        "path5621"
+      ]
+    },
+    "428": {
+      "id": "428",
+      "name": "174",
+      "paths": [
+        "path4128",
+        "path5472",
+        "path5473",
+        "path5622",
+        "path5623",
+        "path5624"
+      ]
+    },
+    "429": {
+      "id": "429",
+      "name": "Freeman St",
+      "paths": [
+        "path4129",
+        "path5470",
+        "path5471",
+        "path5625",
+        "path5626",
+        "path5627"
+      ]
+    },
+    "430": {
+      "id": "430",
+      "name": "Simpson St",
+      "paths": [
+        "path4130",
+        "path5468",
+        "path5469",
+        "path5628",
+        "path5629",
+        "path5630"
+      ]
+    },
+    "431": {
+      "id": "431",
+      "name": "Intervale Av",
+      "paths": [
+        "path4131",
+        "path5631",
+        "path5632",
+        "path5633",
+        "path5466",
+        "path5467"
+      ]
+    },
+    "432": {
+      "id": "432",
+      "name": "Prospect Av",
+      "paths": [
+        "path4132",
+        "path5634",
+        "path5635",
+        "path5636",
+        "path5464",
+        "path5465"
+      ]
+    },
+    "433": {
+      "id": "433",
+      "name": "Jackson Av",
+      "paths": [
+        "path4133",
+        "path5637",
+        "path5638",
+        "path5639",
+        "path5462",
+        "path5463"
+      ]
+    },
+    "434": {
+      "id": "434",
+      "name": "3 Av-149 St",
+      "paths": [
+        "path4134",
+        "path5458",
+        "path5459",
+        "path5460",
+        "path5461"
+      ]
+    },
+    "436": {
+      "id": "436",
+      "name": "Harlem-148 St",
+      "paths": [
+        "path5118",
+        "path5119"
+      ]
+    },
+    "437": {
+      "id": "437",
+      "name": "145 St",
+      "paths": [
+        "path5116",
+        "path5117"
+      ]
+    },
+    "438": {
+      "id": "438",
+      "name": "135 St",
+      "paths": [
+        "path4063",
+        "path5114",
+        "path5115",
+        "path5112",
+        "path5113"
+      ]
+    },
+    "439": {
+      "id": "439",
+      "name": "125 St",
+      "paths": [
+        "path4062",
+        "path5110",
+        "path5111",
+        "path5108",
+        "path5109"
+      ]
+    },
+    "440": {
+      "id": "440",
+      "name": "116 St",
+      "paths": [
+        "path4061",
+        "path5106",
+        "path5107",
+        "path5104",
+        "path5105"
+      ]
+    },
+    "441": {
+      "id": "441",
+      "name": "110 St-Malcolm X Plaza",
+      "paths": [
+        "path4060",
+        "path5102",
+        "path5103",
+        "path5100",
+        "path5101"
+      ]
+    },
+    "442": {
+      "id": "442",
+      "name": "Eastchester-Dyre Av",
+      "paths": [
+        "path5524",
+        "path5525"
+      ]
+    },
+    "443": {
+      "id": "443",
+      "name": "Baychester Av",
+      "paths": [
+        "path5522",
+        "path5523"
+      ]
+    },
+    "444": {
+      "id": "444",
+      "name": "Gun Hill Rd",
+      "paths": [
+        "path5516",
+        "path5517"
+      ]
+    },
+    "445": {
+      "id": "445",
+      "name": "Pelham Pkwy",
+      "paths": [
+        "path5518",
+        "path5519"
+      ]
+    },
+    "446": {
+      "id": "446",
+      "name": "Morris Park",
+      "paths": [
+        "path5521",
+        "path5520"
+      ]
+    },
+    "447": {
+      "id": "447",
+      "name": "Flushng-Main St",
+      "paths": [
+        "path5659",
+        "path5660",
+        "path5826",
+        "path5661",
+        "path5186",
+        "path5187"
+      ]
+    },
+    "448": {
+      "id": "448",
+      "name": "Mets-Willets Point",
+      "paths": [
+        "path5652",
+        "path5653",
+        "path5654",
+        "path5825",
+        "path5188",
+        "path5189"
+      ]
+    },
+    "449": {
+      "id": "449",
+      "name": "111 St",
+      "paths": [
+        "path5190",
+        "path5191"
+      ]
+    },
+    "450": {
+      "id": "450",
+      "name": "103 St-Corona Plaza",
+      "paths": [
+        "path5192",
+        "path5193"
+      ]
+    },
+    "451": {
+      "id": "451",
+      "name": "Junction Blvd",
+      "paths": [
+        "path5655",
+        "path5656",
+        "path5657",
+        "path6992",
+        "path5194",
+        "path5195"
+      ]
+    },
+    "452": {
+      "id": "452",
+      "name": "90 St-Elmhurst Av",
+      "paths": [
+        "path5196",
+        "path5197"
+      ]
+    },
+    "453": {
+      "id": "453",
+      "name": "82 St-Jackson Hts",
+      "paths": [
+        "path5198",
+        "path5199"
+      ]
+    },
+    "455": {
+      "id": "455",
+      "name": "69 St",
+      "paths": [
+        "path5821",
+        "path5183",
+        "path5184",
+        "path5185",
+        "path5166",
+        "path5167"
+      ]
+    },
+    "456": {
+      "id": "456",
+      "name": "61 St-Woodside",
+      "paths": [
+        "path5646",
+        "path5647",
+        "path5648",
+        "path5820",
+        "path5164",
+        "path5165"
+      ]
+    },
+    "457": {
+      "id": "457",
+      "name": "52 St",
+      "paths": [
+        "path5180",
+        "path5181",
+        "path5182",
+        "path5823",
+        "path5162",
+        "path5163"
+      ]
+    },
+    "458": {
+      "id": "458",
+      "name": "46 St-Bliss St",
+      "paths": [
+        "path5824",
+        "path5171",
+        "path5172",
+        "path5173",
+        "path5160",
+        "path5161"
+      ]
+    },
+    "459": {
+      "id": "459",
+      "name": "40 St-Lowery St",
+      "paths": [
+        "path5836",
+        "path5174",
+        "path5175",
+        "path5176",
+        "path5780",
+        "path5781"
+      ]
+    },
+    "460": {
+      "id": "460",
+      "name": "33 St-Rawson St",
+      "paths": [
+        "path5837",
+        "path5177",
+        "path5178",
+        "path5179",
+        "path5778",
+        "path5779"
+      ]
+    },
+    "461": {
+      "id": "461",
+      "name": "Queensboro Plaza",
+      "paths": [
+        "path4072",
+        "path5649",
+        "path5650",
+        "path5158",
+        "path5159",
+        "path4796",
+        "path4797",
+        "path4794",
+        "path4795"
+      ]
+    },
+    "463": {
+      "id": "463",
+      "name": "Hunters Point Av",
+      "paths": [
+        "path5208",
+        "path5209"
+      ]
+    },
+    "464": {
+      "id": "464",
+      "name": "Vernon Blvd-Jackson Av",
+      "paths": [
+        "path5200",
+        "path5201"
+      ]
+    },
+    "471": {
+      "id": "471",
+      "name": "34 St-Hudson Yards",
+      "paths": [
+        "path5202",
+        "path5203"
+      ]
+    },
+    "475": {
+      "id": "475",
+      "name": "96 St",
+      "paths": [
+        "path4830",
+        "path4831"
+      ]
+    },
+    "476": {
+      "id": "476",
+      "name": "86 St",
+      "paths": [
+        "path4828",
+        "path4829"
+      ]
+    },
+    "477": {
+      "id": "477",
+      "name": "72 St",
+      "paths": [
+        "path4826",
+        "path4827"
+      ]
+    },
+    "501": {
+      "id": "501",
+      "name": "St George",
+      "paths": [
+        "path757"
+      ]
+    },
+    "502": {
+      "id": "502",
+      "name": "Tompkinsville",
+      "paths": [
+        "path756"
+      ]
+    },
+    "503": {
+      "id": "503",
+      "name": "Stapleton",
+      "paths": [
+        "path755"
+      ]
+    },
+    "504": {
+      "id": "504",
+      "name": "Clifton",
+      "paths": [
+        "path754"
+      ]
+    },
+    "505": {
+      "id": "505",
+      "name": "Grasmere",
+      "paths": [
+        "path753"
+      ]
+    },
+    "506": {
+      "id": "506",
+      "name": "Old Town",
+      "paths": [
+        "path752"
+      ]
+    },
+    "507": {
+      "id": "507",
+      "name": "Dongan Hills",
+      "paths": [
+        "path751"
+      ]
+    },
+    "508": {
+      "id": "508",
+      "name": "Jefferson Av",
+      "paths": [
+        "path750"
+      ]
+    },
+    "509": {
+      "id": "509",
+      "name": "Grant City",
+      "paths": [
+        "path749"
+      ]
+    },
+    "510": {
+      "id": "510",
+      "name": "New Dorp",
+      "paths": [
+        "path748"
+      ]
+    },
+    "511": {
+      "id": "511",
+      "name": "Oakwood Heights",
+      "paths": [
+        "path747"
+      ]
+    },
+    "512": {
+      "id": "512",
+      "name": "Bay Terrace",
+      "paths": [
+        "path746"
+      ]
+    },
+    "513": {
+      "id": "513",
+      "name": "Great Kills",
+      "paths": [
+        "path745"
+      ]
+    },
+    "514": {
+      "id": "514",
+      "name": "Eltingville",
+      "paths": [
+        "path744"
+      ]
+    },
+    "515": {
+      "id": "515",
+      "name": "Annadale",
+      "paths": [
+        "path743"
+      ]
+    },
+    "516": {
+      "id": "516",
+      "name": "Huguenot",
+      "paths": [
+        "path742"
+      ]
+    },
+    "517": {
+      "id": "517",
+      "name": "Prince's Bay",
+      "paths": [
+        "path741"
+      ]
+    },
+    "518": {
+      "id": "518",
+      "name": "Pleasant Plains",
+      "paths": [
+        "path740"
+      ]
+    },
+    "519": {
+      "id": "519",
+      "name": "Richmond Valley",
+      "paths": [
+        "path739"
+      ]
+    },
+    "522": {
+      "id": "522",
+      "name": "Tottenville",
+      "paths": [
+        "path737"
+      ]
+    },
+    "523": {
+      "id": "523",
+      "name": "Arthur Kill",
+      "paths": [
+        "path738"
+      ]
+    },
+    "601": {
+      "id": "601",
+      "name": "14 St - 6 Av",
+      "paths": [
+        "path5120",
+        "path5121",
+        "path3972",
+        "path5128",
+        "path5129",
+        "path5130",
+        "path5131",
+        "path3882",
+        "path3891",
+        "path4201",
+        "path4202",
+        "path3971",
+        "path4457",
+        "path4458",
+        "path4459",
+        "path4460"
+      ]
+    },
+    "602": {
+      "id": "602",
+      "name": "14 St-Union Sq",
+      "paths": [
+        "path3970",
+        "path3969",
+        "path3913",
+        "path4688",
+        "path4689",
+        "path4630",
+        "path4631",
+        "path4519",
+        "path4520",
+        "path4746",
+        "path4747",
+        "path5148",
+        "path5149",
+        "path5150",
+        "path5151",
+        "path5402",
+        "path5403",
+        "path4195",
+        "path4196"
+      ]
+    },
+    "603": {
+      "id": "603",
+      "name": "149 St-Grand Concourse",
+      "paths": [
+        "path4135",
+        "path3892",
+        "path5456",
+        "path5457",
+        "path5454",
+        "path5455",
+        "path5096",
+        "path5097"
+      ]
+    },
+    "604": {
+      "id": "604",
+      "name": "161 St-Yankee Stadium",
+      "paths": [
+        "path4041",
+        "path4042",
+        "path5613",
+        "path5614",
+        "path5615",
+        "path4395",
+        "path4396",
+        "path5426",
+        "path5427"
+      ]
+    },
+    "605": {
+      "id": "605",
+      "name": "168 St-Washington Hts",
+      "paths": [
+        "path4107",
+        "path3916",
+        "path3917",
+        "path5090",
+        "path5091",
+        "path5088",
+        "path5089",
+        "path5086",
+        "path5087"
+      ]
+    },
+    "606": {
+      "id": "606",
+      "name": "Court Sq-23 St",
+      "paths": [
+        "path4071",
+        "path4249",
+        "path4250",
+        "path4461",
+        "path4462",
+        "path4074",
+        "path5398",
+        "path5399",
+        "path5156",
+        "path5157",
+        "path3881"
+      ]
+    },
+    "607": {
+      "id": "607",
+      "name": "34 St-Herald Sq",
+      "paths": [
+        "path4065",
+        "path4099",
+        "path3927",
+        "path4778",
+        "path4779",
+        "path4690",
+        "path4691",
+        "path4632",
+        "path4633",
+        "path4782",
+        "path4783",
+        "path4449",
+        "path4450",
+        "path4451",
+        "path4452",
+        "path4453",
+        "path4454",
+        "path4455",
+        "path4456"
+      ]
+    },
+    "608": {
+      "id": "608",
+      "name": "4 Av-9 St",
+      "paths": [
+        "path4024",
+        "path4136",
+        "path5388",
+        "path5389",
+        "path5390",
+        "path5391",
+        "path4716",
+        "path4717"
+      ]
+    },
+    "609": {
+      "id": "609",
+      "name": "42 St-Bryant Park / 5 Av",
+      "paths": [
+        "path5204",
+        "path5205",
+        "path3883",
+        "path4319",
+        "path4320",
+        "path4051",
+        "path4315",
+        "path4316",
+        "path4313",
+        "path4314",
+        "path4317",
+        "path4318"
+      ]
+    },
+    "610": {
+      "id": "610",
+      "name": "Grand Central-42 St",
+      "paths": [
+        "path3930",
+        "path3931",
+        "path5206",
+        "path5207",
+        "path4037",
+        "path5154",
+        "path5155",
+        "path5152",
+        "path5153",
+        "path5410",
+        "path5411",
+        "path4505",
+        "path4506"
+      ]
+    },
+    "611": {
+      "id": "611",
+      "name": "Times Sq-42 St",
+      "paths": [
+        "path3928",
+        "path5760",
+        "path5761",
+        "path4056",
+        "path4057",
+        "path4507",
+        "path4508",
+        "path4780",
+        "path4781",
+        "path4692",
+        "path4693",
+        "path4634",
+        "path4635",
+        "path4784",
+        "path4785",
+        "path5042",
+        "path5043",
+        "path5040",
+        "path5041",
+        "path5032",
+        "path5033"
+      ]
+    },
+    "612": {
+      "id": "612",
+      "name": "Lexington Av / 51 St",
+      "paths": [
+        "path4095",
+        "path4447",
+        "path4448",
+        "path4445",
+        "path4446",
+        "path5587",
+        "path5588",
+        "path3879"
+      ]
+    },
+    "613": {
+      "id": "613",
+      "name": "Lexington av / 59 St",
+      "paths": [
+        "path4101",
+        "path4053",
+        "path5414",
+        "path5415",
+        "path5412",
+        "path5413",
+        "path5416",
+        "path5417",
+        "path3880",
+        "path4838",
+        "path4839",
+        "path4836",
+        "path4837",
+        "path4840",
+        "path4841"
+      ]
+    },
+    "614": {
+      "id": "614",
+      "name": "59 St-Columbus Cir",
+      "paths": [
+        "path3914",
+        "path4103",
+        "path3915",
+        "path4225",
+        "path4226",
+        "path5036",
+        "path5037",
+        "path4227",
+        "path4228",
+        "path4325",
+        "path4326",
+        "path4327",
+        "path4328"
+      ]
+    },
+    "615": {
+      "id": "615",
+      "name": "62 St / New Utrecht Av",
+      "paths": [
+        "path3878",
+        "path4700",
+        "path4701",
+        "path5736",
+        "path5737"
+      ]
+    },
+    "617": {
+      "id": "617",
+      "name": "Atlantic Av-Barclays Ctr",
+      "paths": [
+        "path4035",
+        "path4036",
+        "path4034",
+        "path3922",
+        "path3923",
+        "path4608",
+        "path4609",
+        "path4610",
+        "path4611",
+        "path4694",
+        "path4695",
+        "path4908",
+        "path4909",
+        "path4912",
+        "path4913",
+        "path4924",
+        "path4925",
+        "path4928",
+        "path4929",
+        "path4636",
+        "path4637",
+        "path4606",
+        "path4607"
+      ]
+    },
+    "618": {
+      "id": "618",
+      "name": "14 St - 8 Av",
+      "paths": [
+        "path3888",
+        "path3973",
+        "path4217",
+        "path4218",
+        "path4215",
+        "path4216",
+        "path4219",
+        "path4220",
+        "path4203",
+        "path4204"
+      ]
+    },
+    "619": {
+      "id": "619",
+      "name": "Broadway-Lafayette / Bleecker St",
+      "paths": [
+        "path3952",
+        "path4487",
+        "path4488",
+        "path4481",
+        "path4482",
+        "path4477",
+        "path4478",
+        "path4475",
+        "path4476",
+        "path3872",
+        "path5593",
+        "path5594"
+      ]
+    },
+    "620": {
+      "id": "620",
+      "name": "Borough Hall / Court St",
+      "paths": [
+        "path3949",
+        "path4998",
+        "path4999",
+        "path5004",
+        "path5005",
+        "path5002",
+        "path5003",
+        "path5000",
+        "path5001",
+        "path3871",
+        "path4904",
+        "path4905"
+      ]
+    },
+    "621": {
+      "id": "621",
+      "name": "Broadway Junction",
+      "paths": [
+        "path4032",
+        "path4033",
+        "path3924",
+        "path3925",
+        "path5342",
+        "path5343",
+        "path5344",
+        "path5345",
+        "path4572",
+        "path4573",
+        "path4523",
+        "path4524",
+        "path4173",
+        "path4174"
+      ]
+    },
+    "622": {
+      "id": "622",
+      "name": "Brooklyn Bridge-City Hall / Chambers St",
+      "paths": [
+        "path3963",
+        "path5146",
+        "path5147",
+        "path5144",
+        "path5145",
+        "path5400",
+        "path5401",
+        "path3874",
+        "path3964",
+        "path4539",
+        "path4540",
+        "path4578",
+        "path4579"
+      ]
+    },
+    "623": {
+      "id": "623",
+      "name": "Canal St",
+      "paths": [
+        "path3950",
+        "path3965",
+        "path3919",
+        "path4754",
+        "path4755",
+        "path4748",
+        "path4749",
+        "path4750",
+        "path4751",
+        "path4752",
+        "path4753",
+        "path5591",
+        "path5592",
+        "path4541",
+        "path4542",
+        "path4582",
+        "path4583"
+      ]
+    },
+    "624": {
+      "id": "624",
+      "name": "Chambers St / WTC / Park Pl / Cortlandt St",
+      "paths": [
+        "path3982",
+        "path4259",
+        "path4260",
+        "path4273",
+        "path4274",
+        "path3873",
+        "path3983",
+        "path3980",
+        "path4768",
+        "path4769",
+        "path4766",
+        "path4767",
+        "path4275",
+        "path4276",
+        "path5022",
+        "path5023",
+        "path5018",
+        "path5019"
+      ]
+    },
+    "625": {
+      "id": "625",
+      "name": "Delancey St-Essex St",
+      "paths": [
+        "path3954",
+        "path4531",
+        "path4532",
+        "path4564",
+        "path4565",
+        "path4586",
+        "path4587",
+        "path4483",
+        "path4484"
+      ]
+    },
+    "626": {
+      "id": "626",
+      "name": "Franklin Av / Botanic Garden",
+      "paths": [
+        "path4028",
+        "path4964",
+        "path4965",
+        "path4968",
+        "path4969",
+        "path4934",
+        "path4935",
+        "path4932",
+        "path4933",
+        "path3877",
+        "path4517",
+        "path4518"
+      ]
+    },
+    "627": {
+      "id": "627",
+      "name": "Franklin Av",
+      "paths": [
+        "path4511",
+        "path4512",
+        "path4163",
+        "path4509",
+        "path4510"
+      ]
+    },
+    "628": {
+      "id": "628",
+      "name": "Fulton St",
+      "paths": [
+        "path3989",
+        "path4018",
+        "path4017",
+        "path4016",
+        "path3920",
+        "path3921",
+        "path5014",
+        "path5015",
+        "path5016",
+        "path5017",
+        "path4576",
+        "path4577",
+        "path4537",
+        "path4538",
+        "path4263",
+        "path4264",
+        "path4265",
+        "path4266",
+        "path5142",
+        "path5143",
+        "path5140",
+        "path5141"
+      ]
+    },
+    "629": {
+      "id": "629",
+      "name": "Metropolitan Av - Lorimer St",
+      "paths": [
+        "path3886",
+        "path5678",
+        "path5679",
+        "path5680",
+        "path5681"
+      ]
+    },
+    "630": {
+      "id": "630",
+      "name": "Myrtle-Wyckoff Avs",
+      "paths": [
+        "path3958",
+        "path4193",
+        "path4194",
+        "path4495",
+        "path4496"
+      ]
+    },
+    "635": {
+      "id": "635",
+      "name": "Whitehall St-South Ferry",
+      "paths": [
+        "path3988",
+        "path4762",
+        "path4763",
+        "path4906",
+        "path4907",
+        "path3875",
+        "path4594",
+        "path4595"
+      ]
+    },
+    "636": {
+      "id": "636",
+      "name": "Jay St-MetroTech",
+      "paths": [
+        "path3944",
+        "path4902",
+        "path4903",
+        "path4279",
+        "path4280",
+        "path5216",
+        "path5217",
+        "path5214",
+        "path5215"
+      ]
+    },
+    "203 St": {
+      "id": "203 St",
+      "name": "Rockaway Park-Beach 116 St",
+      "paths": [
+        "path4168",
+        "path5816",
+        "path5817",
+        "path5818",
+        "path5819"
+      ]
+    },
+    "Jackson Hts-Roosevelt Av / 74 St": {
+      "id": "Jackson Hts-Roosevelt Av / 74 St",
+      "name": "616",
+      "paths": [
+        "path6993",
+        "path6990",
+        "path6991",
+        "path3934",
+        "path4862",
+        "path4863",
+        "path4861",
+        "path4860",
+        "path4093",
+        "path4858",
+        "path4859",
+        "path4433",
+        "path4434",
+        "path4253",
+        "path4254"
+      ]
+    }
+  }
+}
