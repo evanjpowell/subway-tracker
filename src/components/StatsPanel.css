@@ -1,0 +1,178 @@
+.panel {
+  width: 220px;
+  min-width: 220px;
+  height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 14px 16px;
+  gap: 14px;
+  z-index: 10;
+  box-shadow: -6px 0 24px rgba(0, 0, 0, 0.35);
+}
+
+.panel-title {
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.stat-block {
+  text-align: right;
+}
+
+.stat-number {
+  font-size: 44px;
+  font-weight: bold;
+  color: #111;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.stat-number .denom {
+  font-size: 26px;
+  color: #888;
+  font-weight: normal;
+}
+
+.stat-label {
+  font-size: 9px;
+  font-weight: bold;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+.progress-bar {
+  height: 5px;
+  background: #ececec;
+  border-radius: 3px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  width: 0%;
+  transition: width 0.35s ease;
+}
+.stations-fill { background: #22c55e; }
+.services-fill { background: #3b82f6; }
+
+.stat-block.small .stat-number { font-size: 30px; }
+.stat-block.small .stat-number .denom { font-size: 18px; }
+
+.stat-divider {
+  border: none;
+  border-top: 1px solid #efefef;
+}
+
+/* ── Subway bullet grid ─────────────────────────────────────────────── */
+
+.bullet-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+  padding: 2px 0;
+}
+
+.bullet {
+  /* All bullets are circles */
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+
+  /* Use flexbox to truly center the label — line-height alone can't
+     account for the lack of descenders in all-caps Helvetica. */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Typography — matches MTA bullet style */
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+
+  /* Inactive: greyed out */
+  background: #d8d8d8;
+  color: #999;
+
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+}
+
+.bullet:hover {
+  transform: scale(1.12);
+}
+
+.bullet.active {
+  background: var(--svc-bg);
+  color: var(--svc-text);
+}
+
+/* Inner label wrapper — nudge up ~1px to compensate for the optical
+   center of all-caps glyphs sitting slightly below geometric center. */
+.bullet-label {
+  display: flex;
+  align-items: baseline;
+  margin-top: 1.5px;
+}
+
+.bullet-label sup {
+  font-size: 7px;
+  font-weight: bold;
+  line-height: 1;
+  vertical-align: super;
+  margin-left: 0.5px;
+}
+
+/* SIR — smaller font to fit 3 chars inside the same circle */
+.bullet-small {
+  font-size: 9px;
+  letter-spacing: 0.3px;
+}
+
+/* ── Instructions ────────────────────────────────────────────────────── */
+
+.instructions {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 11px;
+  color: #bbb;
+  line-height: 1.6;
+  padding: 0 4px;
+}
+
+/* ── Bottom buttons ──────────────────────────────────────────────────── */
+
+.panel-bottom {
+  display: flex;
+  gap: 8px;
+}
+
+.panel-btn {
+  flex: 1;
+  padding: 9px 6px;
+  border: none;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.panel-btn:hover { opacity: 0.85; }
+.btn-reset { background: #ececec; color: #444; }
+.btn-share { background: #9a38a1; color: #fff; }
