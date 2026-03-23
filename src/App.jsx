@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import MapView from './components/MapView'
 import StatsPanel from './components/StatsPanel'
 import Toast, { useToast } from './components/Toast'
 import { TOTAL_SERVICES } from './data/services'
+import { fetchProgress, saveProgress } from './utils/api'
 import {
   loadVisitedStations,
   saveVisitedStations,
@@ -13,12 +14,19 @@ import {
 /**
  * App — root component for the NYC Subway Tracker.
  *
- * State management approach:
- * We keep two Sets in React state: visitedStations and riddenServices.
- * When either changes, we persist to cookies (Phase 1) and later to the
- * FastAPI backend (Phase 3). The MapView is mostly imperative (DOM
- * manipulation for performance), so it receives the visitedStations set
- * and a toggle callback, and handles its own SVG rendering internally.
+ * Persistence strategy:
+ *   On mount, we try to load progress from the API (server-side, IP-based).
+ *   If the server is unreachable, we fall back to cookies.
+ *
+ *   On every change, we save to both cookies (instant, offline-safe) and
+ *   the API (debounced, server-side). This means:
+ *     - If the server goes down, your progress is safe in cookies.
+ *     - If you clear cookies, your progress is safe on the server.
+ *     - If you switch networks (new IP), you lose server-side data but
+ *       cookies still work. (Sign-in will fix this in a future phase.)
+ *
+ *   The API save is debounced: we wait 1 second after the last change
+ *   before sending, so rapid clicking doesn't spam the server.
  */
 
 const TOTAL_STATIONS = 446
@@ -30,7 +38,14 @@ export default function App() {
   const [riddenServices, setRiddenServices] = useState(() => loadRiddenServices())
   const { toastMsg, toastVisible, showToast } = useToast()
 
-  // Load station data on mount
+  // Track whether the API is available
+  const apiAvailable = useRef(false)
+  // Debounce timer for API saves
+  const saveTimer = useRef(null)
+  // Skip the first save-on-mount (we just loaded the data)
+  const initialLoadDone = useRef(false)
+
+  // ── Load station data on mount ──────────────────────────────────────
   useEffect(() => {
     fetch('/subway_station_mapping_2026-01-31.json')
       .then(res => res.json())
@@ -38,17 +53,58 @@ export default function App() {
       .catch(err => console.error('Failed to load station data:', err))
   }, [])
 
-  // Persist visited stations to cookie whenever the set changes
+  // ── Load progress from API (with cookie fallback) ───────────────────
   useEffect(() => {
+    async function loadProgress() {
+      try {
+        const data = await fetchProgress()
+        apiAvailable.current = true
+        // Only override local state if server has data
+        if (data.visited_stations.length > 0 || data.ridden_services.length > 0) {
+          setVisitedStations(new Set(data.visited_stations))
+          setRiddenServices(new Set(data.ridden_services))
+        } else {
+          // Server has no data — check if cookies have data to push up
+          const cookieStations = loadVisitedStations()
+          const cookieServices = loadRiddenServices()
+          if (cookieStations.size > 0 || cookieServices.size > 0) {
+            // Push cookie data to server (one-time migration)
+            await saveProgress(cookieStations, cookieServices)
+          }
+        }
+      } catch (err) {
+        console.warn('API unavailable, using cookies:', err.message)
+        apiAvailable.current = false
+      }
+      initialLoadDone.current = true
+    }
+    loadProgress()
+  }, [])
+
+  // ── Persist on every change ─────────────────────────────────────────
+  // Always save to cookies immediately. Debounce API saves by 1 second.
+  useEffect(() => {
+    if (!initialLoadDone.current) return
+
+    // Cookies: immediate
     saveVisitedStations(visitedStations)
-  }, [visitedStations])
-
-  // Persist ridden services to cookie whenever the set changes
-  useEffect(() => {
     saveRiddenServices(riddenServices)
-  }, [riddenServices])
 
-  // Station toggle handler — called by MapView on station click
+    // API: debounced
+    if (apiAvailable.current) {
+      clearTimeout(saveTimer.current)
+      saveTimer.current = setTimeout(() => {
+        saveProgress(visitedStations, riddenServices).catch(err => {
+          console.warn('Failed to save to API:', err.message)
+        })
+      }, 1000)
+    }
+  }, [visitedStations, riddenServices])
+
+  // Cleanup debounce timer on unmount
+  useEffect(() => () => clearTimeout(saveTimer.current), [])
+
+  // ── Station toggle ──────────────────────────────────────────────────
   const handleStationToggle = useCallback((stationId) => {
     setVisitedStations(prev => {
       const next = new Set(prev)
@@ -63,7 +119,7 @@ export default function App() {
     })
   }, [stationData, showToast])
 
-  // Service toggle handler — called by bullet buttons in StatsPanel
+  // ── Service toggle ──────────────────────────────────────────────────
   const handleServiceToggle = useCallback((serviceId) => {
     setRiddenServices(prev => {
       const next = new Set(prev)
@@ -76,14 +132,14 @@ export default function App() {
     })
   }, [])
 
-  // Reset all progress
+  // ── Reset ───────────────────────────────────────────────────────────
   const handleReset = useCallback(() => {
     if (!window.confirm('Reset all visited stations?')) return
     setVisitedStations(new Set())
     setRiddenServices(new Set())
   }, [])
 
-  // Share — copy text summary to clipboard
+  // ── Share ───────────────────────────────────────────────────────────
   const handleShare = useCallback(() => {
     const v = visitedStations.size
     const s = riddenServices.size
@@ -96,7 +152,7 @@ export default function App() {
     })
   }, [visitedStations, riddenServices, showToast])
 
-  // Called by MapView when it finishes loading
+  // ── Map ready ───────────────────────────────────────────────────────
   const handleMapReady = useCallback(() => {
     setLoading(false)
   }, [])

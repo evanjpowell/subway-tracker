@@ -3,3 +3,9 @@ dist/
 .DS_Store
 demo/
 *.old.html
+
+# Backend
+backend/__pycache__/
+backend/app/__pycache__/
+backend/*.db
+backend/.env
