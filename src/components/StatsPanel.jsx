@@ -43,6 +43,13 @@ export default function StatsPanel({
         <div className="stat-number">
           {stationsVisited}
           <span className="denom"> / {stationsTotal}</span>
+          <div className="stat-icon-wrap">
+            <img
+              src="/station-icon.png"
+              alt=""
+              className="stat-icon"
+            />
+          </div>
         </div>
         <div className="stat-label">Stations Visited</div>
         <div className="progress-bar">

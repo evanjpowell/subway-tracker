@@ -30,6 +30,27 @@
   color: #111;
   line-height: 1;
   letter-spacing: -1px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.stat-icon-wrap {
+  height: 44px;
+  width: 28px;
+  overflow: hidden;
+  flex-shrink: 0;
+  align-self: flex-end;
+  margin-bottom: 10px;
+}
+
+.stat-icon {
+  height: 88px;
+  width: 88px;
+  object-fit: contain;
+  display: block;
+  margin-left: -30px;
 }
 
 .stat-number .denom {

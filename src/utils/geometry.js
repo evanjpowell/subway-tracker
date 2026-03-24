@@ -17,6 +17,12 @@
  * nearby bboxes into groups. Paths within CLUSTER_GAP SVG-units of each
  * other merge into one rectangle, so the user gets a single click target
  * even if the station is drawn with several elements.
+ *
+ * Custom outlines:
+ * Some station complexes (e.g. "Chambers St / WTC / Park Pl / Cortlandt St")
+ * span such a large area that a rectangular cluster would cover neighboring
+ * stations. For these, we define a custom SVG path outline (e.g. an L-shape)
+ * that traces the actual station layout without overlapping neighbors.
  */
 
 export const CLUSTER_GAP  = 12  // merge paths this close (SVG units)
@@ -24,6 +30,65 @@ export const HIT_PAD      = 5   // extra padding on hit targets
 export const MARK_PAD     = 2   // extra padding on visited markers
 export const MIN_HIT_DIM  = 14  // minimum hit-target size
 export const MIN_MARK_DIM = 10  // minimum marker size
+
+/**
+ * Custom SVG path outlines for stations that can't use simple rectangles.
+ *
+ * Each entry maps a station ID to an object with:
+ *   hitPath  – SVG path `d` attribute for the (slightly larger) hit target
+ *   markPath – SVG path `d` attribute for the (snugger) visited marker
+ *
+ * Station 624: "Chambers St / WTC / Park Pl / Cortlandt St"
+ * This complex forms an L-shape on the map:
+ *   - A/C dots at top-left (x ~410–433, y ~1672–1683)
+ *   - Park Pl / WTC-E dots in the middle (x ~446–457, y ~1706–1778)
+ *   - Connecting corridor running diagonally (path5: x 432–537, y 1677–1814)
+ *   - R/W Cortlandt St dots at bottom-right (x ~532–555, y ~1808–1819)
+ *
+ * The L-shape avoids overlapping the nearby City Hall (R/W) station (id 20)
+ * which sits to the upper-right of this complex.
+ *
+ *   TL ──── TR                    TL = (405, 1667)
+ *   │        │                    TR = (462, 1667)
+ *   │        │                    EI = (462, 1800) inner elbow
+ *   │       EI ──── ER            ER = (560, 1800)
+ *   │                │            BR = (560, 1824)
+ *   BL ───────────  BR            BL = (405, 1824)
+ */
+function makeRoundedLPath(pad) {
+  // L-shape vertices with padding applied
+  const tl_x = 405 - pad, tl_y = 1667 - pad
+  const tr_x = 462 + pad, tr_y = 1667 - pad
+  const ei_x = 462 + pad, ei_y = 1800          // inner elbow
+  const er_x = 560 + pad, er_y = 1800
+  const br_x = 560 + pad, br_y = 1824 + pad
+  const bl_x = 405 - pad, bl_y = 1824 + pad
+  const r = 5 // corner radius
+
+  return [
+    `M ${tl_x + r} ${tl_y}`,                            // start after TL corner
+    `L ${tr_x - r} ${tr_y}`,                             // top edge
+    `A ${r} ${r} 0 0 1 ${tr_x} ${tr_y + r}`,            // TR corner (convex)
+    `L ${ei_x} ${ei_y - r}`,                             // right edge of narrow section
+    `A ${r} ${r} 0 0 0 ${ei_x + r} ${ei_y}`,            // inner elbow (concave → sweep=0)
+    `L ${er_x - r} ${er_y}`,                             // elbow horizontal edge
+    `A ${r} ${r} 0 0 1 ${er_x} ${er_y + r}`,            // ER corner (convex)
+    `L ${br_x} ${br_y - r}`,                             // right edge of wide section
+    `A ${r} ${r} 0 0 1 ${br_x - r} ${br_y}`,            // BR corner (convex)
+    `L ${bl_x + r} ${bl_y}`,                             // bottom edge
+    `A ${r} ${r} 0 0 1 ${bl_x} ${bl_y - r}`,            // BL corner (convex)
+    `L ${tl_x} ${tl_y + r}`,                             // left edge
+    `A ${r} ${r} 0 0 1 ${tl_x + r} ${tl_y}`,            // TL corner (convex)
+    'Z',
+  ].join(' ')
+}
+
+export const CUSTOM_OUTLINES = {
+  '624': {
+    hitPath:  makeRoundedLPath(HIT_PAD),
+    markPath: makeRoundedLPath(MARK_PAD),
+  },
+}
 
 /**
  * Get the bounding box of a <path> element in SVG root coordinates.
@@ -92,10 +157,17 @@ export function clusterBBoxes(bboxes, gap = CLUSTER_GAP) {
  * Requires a rendered (but possibly off-screen) SVG element in the DOM.
  *
  * Returns: { [stationId]: [{x, y, x2, y2}, …], … }
+ * Stations with custom outlines get: { type: 'custom', hitPath, markPath }
  */
 export function computeAllClusters(svgEl, stationData) {
   const clusters = {}
   for (const [stationId, station] of Object.entries(stationData)) {
+    // Use custom outline if one exists for this station
+    if (CUSTOM_OUTLINES[stationId]) {
+      clusters[stationId] = [{ type: 'custom', ...CUSTOM_OUTLINES[stationId] }]
+      continue
+    }
+
     const bboxes = []
     for (const pathId of station.paths) {
       const el = svgEl.querySelector(`#${pathId}`)

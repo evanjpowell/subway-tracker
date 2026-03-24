@@ -118,16 +118,24 @@ export default function MapView({ stationData, visitedStations, onStationToggle,
     hitLayer.innerHTML = ''
     for (const [stationId, clusters] of Object.entries(clustersRef.current)) {
       for (const c of clusters) {
-        const w  = Math.max((c.x2 - c.x) + 2 * HIT_PAD, MIN_HIT_DIM)
-        const h  = Math.max((c.y2 - c.y) + 2 * HIT_PAD, MIN_HIT_DIM)
-        const cx = c.x - HIT_PAD - Math.max(0, (MIN_HIT_DIM - ((c.x2 - c.x) + 2 * HIT_PAD)) / 2)
-        const cy = c.y - HIT_PAD - Math.max(0, (MIN_HIT_DIM - ((c.y2 - c.y) + 2 * HIT_PAD)) / 2)
-        const rect = makeRect(cx, cy, w, h, HIT_PAD + 2)
-        rect.setAttribute('fill', 'transparent')
-        rect.setAttribute('pointer-events', 'all')
-        rect.style.cursor = 'pointer'
-        rect.dataset.stationId = stationId
-        hitLayer.appendChild(rect)
+        let el
+        if (c.type === 'custom') {
+          // Custom SVG path outline (e.g. L-shape for complex stations)
+          el = document.createElementNS(NS, 'path')
+          el.setAttribute('d', c.hitPath)
+        } else {
+          // Standard rectangular hit target
+          const w  = Math.max((c.x2 - c.x) + 2 * HIT_PAD, MIN_HIT_DIM)
+          const h  = Math.max((c.y2 - c.y) + 2 * HIT_PAD, MIN_HIT_DIM)
+          const cx = c.x - HIT_PAD - Math.max(0, (MIN_HIT_DIM - ((c.x2 - c.x) + 2 * HIT_PAD)) / 2)
+          const cy = c.y - HIT_PAD - Math.max(0, (MIN_HIT_DIM - ((c.y2 - c.y) + 2 * HIT_PAD)) / 2)
+          el = makeRect(cx, cy, w, h, HIT_PAD + 2)
+        }
+        el.setAttribute('fill', 'transparent')
+        el.setAttribute('pointer-events', 'all')
+        el.style.cursor = 'pointer'
+        el.dataset.stationId = stationId
+        hitLayer.appendChild(el)
       }
     }
   }, [makeRect])
@@ -143,13 +151,21 @@ export default function MapView({ stationData, visitedStations, onStationToggle,
     const g = document.createElementNS(NS, 'g')
     g.id = `vm-${stationId}`
     for (const c of clusters) {
-      const w  = Math.max((c.x2 - c.x) + 2 * MARK_PAD, MIN_MARK_DIM)
-      const h  = Math.max((c.y2 - c.y) + 2 * MARK_PAD, MIN_MARK_DIM)
-      const cx = c.x - MARK_PAD - Math.max(0, (MIN_MARK_DIM - ((c.x2 - c.x) + 2 * MARK_PAD)) / 2)
-      const cy = c.y - MARK_PAD - Math.max(0, (MIN_MARK_DIM - ((c.y2 - c.y) + 2 * MARK_PAD)) / 2)
-      const rect = makeRect(cx, cy, w, h, MARK_PAD + 3)
-      rect.classList.add('visited-marker')
-      g.appendChild(rect)
+      let el
+      if (c.type === 'custom') {
+        // Custom SVG path outline (e.g. L-shape for complex stations)
+        el = document.createElementNS(NS, 'path')
+        el.setAttribute('d', c.markPath)
+      } else {
+        // Standard rectangular visited marker
+        const w  = Math.max((c.x2 - c.x) + 2 * MARK_PAD, MIN_MARK_DIM)
+        const h  = Math.max((c.y2 - c.y) + 2 * MARK_PAD, MIN_MARK_DIM)
+        const cx = c.x - MARK_PAD - Math.max(0, (MIN_MARK_DIM - ((c.x2 - c.x) + 2 * MARK_PAD)) / 2)
+        const cy = c.y - MARK_PAD - Math.max(0, (MIN_MARK_DIM - ((c.y2 - c.y) + 2 * MARK_PAD)) / 2)
+        el = makeRect(cx, cy, w, h, MARK_PAD + 3)
+      }
+      el.classList.add('visited-marker')
+      g.appendChild(el)
     }
     visitedLayer.appendChild(g)
   }, [makeRect])
