@@ -9,6 +9,31 @@
 }
 .map-container.dragging { cursor: grabbing; }
 
+/* ── Map style toggle ── */
+.map-toggle-btn {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  z-index: 20;
+  padding: 5px 11px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #444;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+  pointer-events: all;
+}
+.map-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
 /* The viewport div gets CSS-transformed for pan/zoom.
    will-change: transform promotes it to a compositor layer so
    panning is a zero-cost GPU operation. */
@@ -23,6 +48,7 @@
 /* Map displayed as <img> — browser rasterizes once, then GPU composites. */
 .map-img {
   display: block;
+  box-shadow: 0 10px 50px 12px rgba(0, 0, 0, 0.6);
 }
 
 /* Lightweight overlay SVG: hit-target rects + visited markers.

@@ -19,11 +19,11 @@ body {
 /* ── Subway tile background ──
    Repeating white ceramic tile pattern behind the map area. */
 .tile-bg {
-  background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.5)),
+  background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.5)),
                     url('/header.png'), url('/footer.png'), url('/tile.png');
   background-repeat: no-repeat, repeat-x, no-repeat, repeat;
-  background-size: 100%, 40%, 100% 75px, 400px;
-  background-position: center, top left, center bottom, center;
+  background-size: 100%, 475px, 100% 75px, 400px;
+  background-position: center, top center, center bottom, left;
 }
 
 

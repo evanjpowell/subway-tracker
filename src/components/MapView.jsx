@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react'
+import { useEffect, useRef, useCallback, useState } from 'react'
 import {
   computeAllClusters,
   HIT_PAD,
@@ -46,7 +46,14 @@ const MIN_SCALE = 0.12
 const MAX_SCALE = 3.0
 const NS        = 'http://www.w3.org/2000/svg'
 
+const MAPS = [
+  { url: '/subway_map.svg',   label: 'Diagram' },
+  { url: '/vintage_map.svg',  label: 'Geographic' },
+]
+
 export default function MapView({ stationData, visitedStations, onStationToggle, onReady }) {
+  const [mapIndex, setMapIndex] = useState(0)
+
   // DOM refs
   const containerRef    = useRef(null)
   const viewportRef     = useRef(null)
@@ -219,7 +226,7 @@ export default function MapView({ stationData, visitedStations, onStationToggle,
       console.log('[MapView] init starting, stationData keys:', Object.keys(stationData).length)
 
       // 1. Fetch the SVG
-      const svgRes = await fetch('/subway_map.svg')
+      const svgRes = await fetch(MAPS[mapIndex].url)
       const svgText = await svgRes.text()
       console.log('[MapView] SVG fetched, length:', svgText.length)
 
@@ -250,8 +257,9 @@ export default function MapView({ stationData, visitedStations, onStationToggle,
 
       if (cancelled) return
 
-      // 4. Build overlay hit targets
+      // 4. Build overlay hit targets + clear any stale visited markers
       buildHitTargets()
+      if (visitedLayerRef.current) visitedLayerRef.current.innerHTML = ''
 
       // 5. Fit map to container
       const container = containerRef.current
@@ -278,7 +286,7 @@ export default function MapView({ stationData, visitedStations, onStationToggle,
     })
     return () => { cancelled = true }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []) // Run once on mount
+  }, [mapIndex]) // Re-run when the active map changes
 
   // ── Mouse pan ───────────────────────────────────────────────────────────
 
@@ -422,8 +430,17 @@ export default function MapView({ stationData, visitedStations, onStationToggle,
     }
   }, [applyTransform, suspendHitTest])
 
+  const nextMap = MAPS[1 - mapIndex]
+
   return (
     <div className="map-container tile-bg" ref={containerRef}>
+      <button
+        className="map-toggle-btn"
+        onClick={() => setMapIndex(i => 1 - i)}
+        title={`Switch to ${nextMap.label} map`}
+      >
+        {nextMap.label}
+      </button>
       <div className="map-viewport" ref={viewportRef}>
         <img
           ref={mapImgRef}
