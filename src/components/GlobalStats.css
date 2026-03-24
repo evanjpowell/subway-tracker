@@ -1,0 +1,55 @@
+/* Phase 4: Global stats styles — customize as you build out the component! */
+
+.global-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px 0;
+}
+
+.stats-error {
+  font-size: 10px;
+  color: #e55;
+}
+
+.stats-section-label {
+  font-size: 9px;
+  font-weight: bold;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.stats-percentile {
+  font-size: 12px;
+  color: #555;
+  text-align: right;
+}
+
+.stats-percentile strong {
+  color: #22c55e;
+}
+
+/* ── Borough breakdown ─────────────────────────────────────────────── */
+
+.stats-boroughs {
+  text-align: right;
+}
+
+.borough-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #666;
+  padding: 2px 0;
+}
+
+.borough-name {
+  color: #888;
+}
+
+.borough-count {
+  font-weight: bold;
+  color: #444;
+}

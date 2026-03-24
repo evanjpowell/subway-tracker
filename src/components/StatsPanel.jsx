@@ -1,4 +1,5 @@
 import SERVICES from '../data/services'
+import GlobalStats from './GlobalStats'
 import './StatsPanel.css'
 
 /**
@@ -99,6 +100,9 @@ export default function StatsPanel({
           )
         })}
       </div>
+
+      {/* Phase 4: Detailed stats — uncomment when ready */}
+      {/* <GlobalStats stationsVisited={stationsVisited} riddenServices={riddenServices} /> */}
 
       {/* Instructions */}
       <div className="instructions">
