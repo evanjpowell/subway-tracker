@@ -56,13 +56,15 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
   const [mapIndex, setMapIndex] = useState(0)
 
   // DOM refs
-  const containerRef    = useRef(null)
-  const viewportRef     = useRef(null)
-  const overlaySvgRef   = useRef(null)
-  const hitLayerRef     = useRef(null)
-  const visitedLayerRef = useRef(null)
-  const rippleLayerRef  = useRef(null)
-  const mapImgRef       = useRef(null)
+  const containerRef      = useRef(null)
+  const viewportRef       = useRef(null)
+  const overlaySvgRef     = useRef(null)
+  const hitLayerRef       = useRef(null)
+  const visitedLayerRef   = useRef(null)
+  const outlineLayerRef   = useRef(null)
+  const highlightLayerRef = useRef(null)
+  const rippleLayerRef    = useRef(null)
+  const mapImgRef         = useRef(null)
 
   // Mutable state for pan/zoom (not React state — we don't want re-renders
   // on every mouse move, we just mutate the CSS transform directly).
@@ -80,6 +82,8 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
 
   // Station clusters computed from the SVG geometry
   const clustersRef = useRef({})
+  // Whether the currently active map is the diagram (non-vintage) map
+  const isDiagramRef = useRef(true)
 
   // ── Transform helpers ───────────────────────────────────────────────────
 
@@ -189,34 +193,36 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
     if (!visitedLayer || !clusters || clusters.length === 0) return
     // Don't duplicate
     if (document.getElementById(`vm-${stationId}`)) return
+
+    const isDiagram = isDiagramRef.current
     const g = document.createElementNS(NS, 'g')
     g.id = `vm-${stationId}`
+
     for (const c of clusters) {
       // Label-only clusters (vintage map, path IDs ≥ 2000) are hit targets only —
-      // don't include them in the visible green marker box.
+      // don't include them in the visible marker box.
       if (c.hitOnly) continue
-      let el
-      if (c.type === 'custom') {
-        // Custom SVG path outline (e.g. L-shape for complex stations)
-        el = document.createElementNS(NS, 'path')
+
+      if (c.type === 'custom' && !isDiagram) {
+        // Vintage map only: L-shaped outline for complex stations.
+        // Diagram mode uses the cloned highlight paths instead.
+        const el = document.createElementNS(NS, 'path')
         el.setAttribute('d', c.markPath)
         el.classList.add('visited-marker')
         g.appendChild(el)
-      } else {
-        // Standard rectangular visited marker
+      } else if (!isDiagram) {
+        // Vintage/geographic map: gray box + person icon (original behaviour)
         const w  = Math.max((c.x2 - c.x) + 2 * MARK_PAD, MIN_MARK_DIM)
         const h  = Math.max((c.y2 - c.y) + 2 * MARK_PAD, MIN_MARK_DIM)
         const cx = c.x - MARK_PAD - Math.max(0, (MIN_MARK_DIM - ((c.x2 - c.x) + 2 * MARK_PAD)) / 2)
         const cy = c.y - MARK_PAD - Math.max(0, (MIN_MARK_DIM - ((c.y2 - c.y) + 2 * MARK_PAD)) / 2)
-        // Cap radius: never exceed half the shorter side (prevents ovals)
         const rx = Math.min(MARK_PAD + 10, Math.min(w, h) / 2)
-        el = makeRect(cx, cy, w, h, rx)
-        el.classList.add('visited-marker')
-        g.appendChild(el)
+        const box = makeRect(cx, cy, w, h, rx)
+        box.classList.add('visited-marker')
+        g.appendChild(box)
 
-        // Person icon centered above the box
         const iconCX   = cx + w / 2
-        const iconBase = cy - 3  // bottom of icon, leaving a small gap
+        const iconBase = cy - 3
 
         const head = document.createElementNS(NS, 'circle')
         head.setAttribute('cx', iconCX)
@@ -237,12 +243,54 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
         g.appendChild(body)
       }
     }
+
+    if (isDiagram) {
+      // Swap: hide outlines, show highlight paths for this station
+      const hl = highlightLayerRef.current
+      const ol = outlineLayerRef.current
+      hl?.querySelectorAll(`[data-sid="${stationId}"]`).forEach(el => { el.style.display = '' })
+      ol?.querySelectorAll(`[data-sid="${stationId}"]`).forEach(el => { el.style.display = 'none' })
+
+      // Person icon above the first non-hitOnly, non-custom cluster
+      const anchor = clusters.find(c => !c.hitOnly && c.type !== 'custom')
+      if (anchor) {
+        const w  = Math.max((anchor.x2 - anchor.x) + 2 * MARK_PAD, MIN_MARK_DIM)
+        const cx = anchor.x - MARK_PAD - Math.max(0, (MIN_MARK_DIM - ((anchor.x2 - anchor.x) + 2 * MARK_PAD)) / 2)
+        const cy = anchor.y - MARK_PAD - Math.max(0, (MIN_MARK_DIM - ((anchor.y2 - anchor.y) + 2 * MARK_PAD)) / 2)
+        const iconCX   = cx + w / 2
+        const iconBase = cy - 3
+
+        const head = document.createElementNS(NS, 'circle')
+        head.setAttribute('cx', iconCX)
+        head.setAttribute('cy', iconBase - 7.5)
+        head.setAttribute('r', '2.5')
+        head.setAttribute('fill', '#373737')
+        head.style.pointerEvents = 'none'
+        g.appendChild(head)
+
+        const body = document.createElementNS(NS, 'rect')
+        body.setAttribute('x', iconCX - 3)
+        body.setAttribute('y', iconBase - 5)
+        body.setAttribute('width', '6')
+        body.setAttribute('height', '5')
+        body.setAttribute('rx', '1.5')
+        body.setAttribute('fill', '#373737')
+        body.style.pointerEvents = 'none'
+        g.appendChild(body)
+      }
+    }
+
     visitedLayer.appendChild(g)
   }, [makeRect])
 
   const removeVisitedMarker = useCallback((stationId) => {
     const el = document.getElementById(`vm-${stationId}`)
     if (el) el.remove()
+    // Swap back: hide highlight paths, show outlines
+    const hl = highlightLayerRef.current
+    const ol = outlineLayerRef.current
+    hl?.querySelectorAll(`[data-sid="${stationId}"]`).forEach(el => { el.style.display = 'none' })
+    ol?.querySelectorAll(`[data-sid="${stationId}"]`).forEach(el => { el.style.display = '' })
   }, [])
 
   // Sync visited markers whenever visitedStations set changes
@@ -258,11 +306,11 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
       for (const g of [...visitedLayer.children]) {
         const id = g.id.replace('vm-', '')
         if (!visitedStations.has(id)) {
-          g.remove()
+          removeVisitedMarker(id)
         }
       }
     }
-  }, [visitedStations, addVisitedMarker])
+  }, [visitedStations, addVisitedMarker, removeVisitedMarker])
 
   // ── Click handler (delegation) ──────────────────────────────────────────
 
@@ -315,15 +363,77 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
       document.body.appendChild(tempDiv)
       const computeSVG = tempDiv.querySelector('svg')
       void computeSVG.getBoundingClientRect() // force layout
+      isDiagramRef.current = !vintage
       clustersRef.current = vintage
         ? computeVintageAllClusters(computeSVG, activeStationData)
         : computeAllClusters(computeSVG, activeStationData)
+
+      // For the diagram map, clone each station's paths into two overlay layers
+      // while the SVG is still live in the DOM:
+      //   outlineLayer   – 0.25px black outlines, visible by default
+      //   highlightLayer – filled paths, hidden until the station is clicked
+      // Paths are appended in SVG document order (not station order) so the
+      // original z-ordering is preserved across station boundaries.
+      const highlightLayer = highlightLayerRef.current
+      const outlineLayer   = outlineLayerRef.current
+      if (highlightLayer) highlightLayer.innerHTML = ''
+      if (outlineLayer)   outlineLayer.innerHTML   = ''
+      if (!vintage && highlightLayer && outlineLayer) {
+        // Reverse map: pathId → stationId
+        const pathToStation = {}
+        for (const [stationId, station] of Object.entries(activeStationData)) {
+          for (const pathId of (station.paths || [])) pathToStation[pathId] = stationId
+        }
+        // Walk all SVG elements in DOM order so clones inherit the correct stack
+        for (const srcEl of computeSVG.querySelectorAll('[id]')) {
+          const stationId = pathToStation[srcEl.getAttribute('id')]
+          if (!stationId) continue
+          const d = srcEl.getAttribute('d')
+          if (!d) continue
+          try {
+            const ctm = srcEl.getCTM()
+            if (!ctm) continue
+            const transform = `matrix(${ctm.a},${ctm.b},${ctm.c},${ctm.d},${ctm.e},${ctm.f})`
+            // Highlight clone — original style, hidden until clicked
+            const hlClone = document.createElementNS(NS, 'path')
+            hlClone.setAttribute('d', d)
+            hlClone.setAttribute('transform', transform)
+            hlClone.setAttribute('data-sid', stationId)
+            const styleAttr = srcEl.getAttribute('style')
+            if (styleAttr) hlClone.setAttribute('style', styleAttr)
+            hlClone.style.display = 'none'
+            hlClone.style.pointerEvents = 'none'
+            highlightLayer.appendChild(hlClone)
+            // Outline clone — 0.25px black stroke, visible by default
+            const olClone = document.createElementNS(NS, 'path')
+            olClone.setAttribute('d', d)
+            olClone.setAttribute('transform', transform)
+            olClone.setAttribute('data-sid', stationId)
+            olClone.setAttribute('fill', 'none')
+            olClone.setAttribute('stroke', '#000000')
+            olClone.setAttribute('stroke-width', '0.25')
+            olClone.style.pointerEvents = 'none'
+            outlineLayer.appendChild(olClone)
+          } catch (_) { /* skip unrenderable paths */ }
+        }
+      }
+
+      // Strip station paths from the SVG — outlines live in the overlay now.
+      if (!vintage) {
+        for (const station of Object.values(activeStationData)) {
+          for (const pathId of (station.paths || [])) {
+            computeSVG.querySelector(`#${pathId}`)?.remove()
+          }
+        }
+      }
+      const cleanSvgText = vintage ? svgText : new XMLSerializer().serializeToString(computeSVG)
+
       document.body.removeChild(tempDiv)
 
       if (cancelled) return
 
       // 3. Display map as a GPU-composited image
-      const blob   = new Blob([svgText], { type: 'image/svg+xml' })
+      const blob   = new Blob([cleanSvgText], { type: 'image/svg+xml' })
       const imgUrl = URL.createObjectURL(blob)
       const mapImg = mapImgRef.current
       await new Promise((resolve, reject) => {
@@ -535,9 +645,11 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
           height={activeMap.h}
           onClick={handleOverlayClick}
         >
-          <g ref={visitedLayerRef} style={{ pointerEvents: 'none' }} />
-          <g ref={rippleLayerRef}  style={{ pointerEvents: 'none' }} />
-          <g ref={hitLayerRef}     style={{ pointerEvents: 'all' }} />
+          <g ref={outlineLayerRef}   style={{ pointerEvents: 'none' }} />
+          <g ref={highlightLayerRef} style={{ pointerEvents: 'none' }} />
+          <g ref={visitedLayerRef}   style={{ pointerEvents: 'none' }} />
+          <g ref={rippleLayerRef}    style={{ pointerEvents: 'none' }} />
+          <g ref={hitLayerRef}       style={{ pointerEvents: 'all' }} />
         </svg>
       </div>
     </div>

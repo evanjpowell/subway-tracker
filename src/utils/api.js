@@ -102,3 +102,20 @@ export async function fetchLineStats() {
   }
   return res.json()
 }
+
+/**
+ * Fetch the full achievements list with the user's unlock status.
+ * Returns {
+ *   achievements: [{ id, name, description, category, unlocked_at }],
+ *   total_unlocked: number,
+ *   total: number,
+ * }
+ * unlocked_at is an ISO timestamp string if earned, or null if still locked.
+ */
+export async function fetchAchievements() {
+  const res = await fetch(`${API_BASE}/achievements`)
+  if (!res.ok) {
+    throw new Error(`Failed to fetch achievements: ${res.status}`)
+  }
+  return res.json()
+}

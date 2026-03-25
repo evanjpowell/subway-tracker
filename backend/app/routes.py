@@ -179,6 +179,14 @@ async def save_progress(
 
     await db.commit()
 
+    # Phase 5: Check for newly unlocked achievements after every save.
+    # Uncomment this when you're ready to implement achievement logic!
+    # The returned list of IDs can be added to the response so the
+    # frontend can fire a toast for each newly unlocked achievement.
+    #
+    # from .achievement_routes import trigger_achievement_check
+    # newly_unlocked = await trigger_achievement_check(db, user.id)
+
     return ProgressResponse(
         visited_stations=data.visited_stations,
         ridden_services=data.ridden_services,

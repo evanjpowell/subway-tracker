@@ -1,0 +1,88 @@
+/* Phase 5: Achievements styles — customize as you build out the component! */
+
+.achievements {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.achievements-error {
+  font-size: 10px;
+  color: #e55;
+}
+
+.achievements-section-label {
+  font-size: 9px;
+  font-weight: bold;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+/* ── Summary line ──────────────────────────────────────────────────── */
+
+.achievements-summary {
+  text-align: right;
+  font-size: 12px;
+  color: #555;
+}
+
+.achievements-count {
+  font-weight: bold;
+  color: #f5c842;  /* gold-ish, fits a "trophy" feel */
+}
+
+.achievements-total {
+  color: #999;
+}
+
+.achievements-label {
+  color: #666;
+}
+
+/* ── Individual achievement row ────────────────────────────────────── */
+
+.achievement-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.achievement-row.locked .achievement-name {
+  color: #bbb;
+}
+
+.achievement-row.earned .achievement-name {
+  color: #333;
+  font-weight: bold;
+}
+
+.achievement-name {
+  font-size: 12px;
+}
+
+.achievement-desc {
+  font-size: 10px;
+  color: #999;
+}
+
+.achievement-row.earned .achievement-desc {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* ── Line completion summary ───────────────────────────────────────── */
+
+.achievements-lines {
+  text-align: right;
+}
+
+.achievements-line-count {
+  font-size: 12px;
+  font-weight: bold;
+  color: #444;
+}

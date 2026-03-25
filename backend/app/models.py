@@ -52,6 +52,7 @@ class User(Base):
     # Relationships — lets us do user.visited_stations to get all rows
     visited_stations: Mapped[list["VisitedStation"]] = relationship(back_populates="user", cascade="all, delete-orphan")
     ridden_services: Mapped[list["RiddenService"]] = relationship(back_populates="user", cascade="all, delete-orphan")
+    achievements: Mapped[list["UserAchievement"]] = relationship(back_populates="user", cascade="all, delete-orphan")
 
 
 class VisitedStation(Base):
@@ -82,4 +83,27 @@ class RiddenService(Base):
 
     __table_args__ = (
         UniqueConstraint("user_id", "service_id", name="uq_user_service"),
+    )
+
+
+class UserAchievement(Base):
+    """Records which achievements each user has earned and when.
+
+    achievement_id is a string slug (e.g. "line-7", "all-boroughs") that
+    matches the ids defined in achievements.py. We don't use a foreign key
+    to a separate achievements table — the definitions live in code, not the DB.
+    This means adding or renaming achievements doesn't require a migration.
+    """
+    __tablename__ = "user_achievements"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
+    achievement_id: Mapped[str] = mapped_column(String(32), nullable=False)
+    unlocked_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+    user: Mapped["User"] = relationship(back_populates="achievements")
+
+    # A user can only unlock each achievement once
+    __table_args__ = (
+        UniqueConstraint("user_id", "achievement_id", name="uq_user_achievement"),
     )

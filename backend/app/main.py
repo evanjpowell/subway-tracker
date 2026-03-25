@@ -23,6 +23,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .database import init_db
 from .routes import router
 from .stats_routes import stats_router
+from .achievement_routes import achievements_router
 
 
 @asynccontextmanager
@@ -57,3 +58,4 @@ app.add_middleware(
 # Mount all /api/* routes
 app.include_router(router)
 app.include_router(stats_router)
+app.include_router(achievements_router)
