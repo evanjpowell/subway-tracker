@@ -68,6 +68,89 @@
   stroke-width: 3.5;
 }
 
+/* ── Fold transition ── */
+
+/* Covers the entire map area; perspective here gives both panels a shared
+   vanishing point, making the fold look like one physical crease. */
+.fold-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  perspective: 900px;
+  perspective-origin: center center;
+  pointer-events: none;
+}
+
+/* Thin crease line at the center fold */
+.fold-overlay::after {
+  content: '';
+  position: absolute;
+  left: calc(50% - 0.5px);
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+.fold-panel {
+  flex: 1;
+  background-repeat: no-repeat;
+}
+
+/* Left panel pivots on its right edge; right panel on its left edge.
+   This anchors both panels to the center crease during the fold. */
+.fold-left  { transform-origin: right center; }
+.fold-right { transform-origin: left  center; }
+
+/* ── Fold-in: old map closes toward the crease (ease-in — accelerates) ── */
+
+.fold-left.folding-in {
+  animation: fold-left-in 220ms ease-in forwards;
+}
+.fold-right.folding-in {
+  animation: fold-right-in 220ms ease-in forwards;
+}
+
+@keyframes fold-left-in {
+  from { transform: rotateY(0deg);  }
+  to   { transform: rotateY(90deg); }
+}
+@keyframes fold-right-in {
+  from { transform: rotateY(0deg);   }
+  to   { transform: rotateY(-90deg); }
+}
+
+/* ── Fold-out: new map opens from the crease (ease-out — decelerates) ── */
+/* transform sets the starting position so there's no flash before the
+   animation's first keyframe takes over. */
+
+.fold-left.folding-out {
+  transform: rotateY(90deg);
+  animation: fold-left-out 280ms ease-out forwards;
+}
+.fold-right.folding-out {
+  transform: rotateY(-90deg);
+  animation: fold-right-out 280ms ease-out forwards;
+}
+
+@keyframes fold-left-out {
+  from { transform: rotateY(90deg); }
+  to   { transform: rotateY(0deg);  }
+}
+@keyframes fold-right-out {
+  from { transform: rotateY(-90deg); }
+  to   { transform: rotateY(0deg);   }
+}
+
+/* Disable the toggle button during the transition */
+.map-toggle-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+  pointer-events: none;
+}
+
 /* ── Loading overlay ── */
 .loading-overlay {
   position: fixed;

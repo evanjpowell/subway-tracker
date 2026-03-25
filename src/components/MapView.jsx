@@ -54,6 +54,7 @@ const MAPS = [
 
 export default function MapView({ stationData, vintageStationData, visitedStations, onStationToggle, onReady }) {
   const [mapIndex, setMapIndex] = useState(0)
+  const [foldPhase, setFoldPhase] = useState('idle') // 'idle' | 'folding-in' | 'folding-out'
 
   // DOM refs
   const containerRef      = useRef(null)
@@ -84,6 +85,12 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
   const clustersRef = useRef({})
   // Whether the currently active map is the diagram (non-vintage) map
   const isDiagramRef = useRef(true)
+
+  // Fold transition: snapshots of the map at the moment the fold starts/ends,
+  // and a callback slot that init() fires when the new map is ready.
+  const snapshot1Ref        = useRef(null) // old map — used during fold-in
+  const snapshot2Ref        = useRef(null) // new map — used during fold-out
+  const mapReadyCallbackRef = useRef(null) // set by handleToggle, called by init
 
   // ── Transform helpers ───────────────────────────────────────────────────
 
@@ -337,6 +344,87 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
     }
   }, [onStationToggle, emitRipple])
 
+  // ── Fold transition helpers ──────────────────────────────────────────────
+
+  // Rasterize the current map image into a canvas at container resolution.
+  // Returns { url, width, height } or null if the image isn't ready.
+  function takeSnapshot() {
+    const container = containerRef.current
+    const img       = mapImgRef.current
+    if (!container || !img || !img.src) return null
+
+    const cw = container.offsetWidth
+    const ch = container.offsetHeight
+    // Use the img element's actual layout dimensions to avoid stale-closure
+    // issues with mapIndex — offsetWidth/Height reflect the current HTML attrs.
+    const imgW = img.offsetWidth
+    const imgH = img.offsetHeight
+    const p    = pan.current
+
+    const canvas = document.createElement('canvas')
+    canvas.width  = cw
+    canvas.height = ch
+    try {
+      const ctx = canvas.getContext('2d')
+      ctx.drawImage(img, p.translateX, p.translateY, imgW * p.scale, imgH * p.scale)
+      return { url: canvas.toDataURL(), width: cw, height: ch }
+    } catch (_) {
+      return null
+    }
+  }
+
+  function handleToggle() {
+    if (foldPhase !== 'idle') return
+    // Instantly hide the overlay SVG layers (visited markers, outlines, etc.)
+    // before the fold starts. They'll fade back in once the new map is revealed.
+    const svg = overlaySvgRef.current
+    if (svg) {
+      svg.style.transition = 'none'
+      svg.style.opacity    = '0'
+    }
+    const snap = takeSnapshot()
+    if (!snap) {
+      // Image not ready — switch immediately without animation
+      if (svg) svg.style.opacity = ''
+      setMapIndex(i => 1 - i)
+      return
+    }
+    snapshot1Ref.current = snap
+    snapshot2Ref.current = null
+    setFoldPhase('folding-in')
+    // mapIndex changes in handleFoldInEnd, after the fold-in animation completes
+  }
+
+  function handleFoldInEnd() {
+    // Panels are now edge-on (invisible). Switch the map and wait for it to load.
+    mapReadyCallbackRef.current = () => {
+      // New map is ready — snapshot it, then unfold to reveal it.
+      snapshot2Ref.current = takeSnapshot()
+      setFoldPhase('folding-out')
+    }
+    setMapIndex(i => 1 - i)
+  }
+
+  function handleFoldOutEnd() {
+    setFoldPhase('idle')
+    snapshot1Ref.current = null
+    snapshot2Ref.current = null
+  }
+
+  // Fade the overlay SVG back in after each fold completes.
+  // This effect runs after React commits the DOM, so by the time it fires
+  // the viewport's visibility:hidden has already been lifted — the overlay
+  // is visible at opacity:0 and ready to transition.
+  useEffect(() => {
+    if (foldPhase !== 'idle') return
+    const svg = overlaySvgRef.current
+    if (!svg) return
+    svg.style.transition = 'opacity 180ms ease-out'
+    svg.style.opacity    = '1'
+    const timer = setTimeout(() => { svg.style.transition = '' }, 180)
+    return () => clearTimeout(timer)
+  }, [foldPhase])
+
   // ── Initialization: fetch SVG, compute clusters, render map ─────────────
 
   useEffect(() => {
@@ -432,7 +520,29 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
 
       if (cancelled) return
 
-      // 3. Display map as a GPU-composited image
+      // 3. Pre-apply the fit transform before loading the image.
+      //
+      // The SVG is rasterized into the GPU compositing layer the moment it
+      // loads. If a stale pan/zoom RAF from the previous map fires during
+      // the async load, it sets the wrong transform and the SVG gets
+      // rasterized at the wrong scale — causing blurry pan/zoom on the
+      // new map. Applying the transform synchronously (bypassing the RAF
+      // queue) here guarantees the compositing layer is at the correct
+      // scale when rasterization happens.
+      const container = containerRef.current
+      const cw = container.offsetWidth
+      const ch = container.offsetHeight
+      const p = pan.current
+      p.scale      = Math.min(cw / svgW, ch / svgH) * 0.97
+      p.translateX = (cw - svgW * p.scale) / 2
+      p.translateY = (ch - svgH * p.scale) / 2
+      p.rafPending = false  // discard any stale queued RAF
+      if (viewportRef.current) {
+        viewportRef.current.style.transform =
+          `translate3d(${p.translateX}px,${p.translateY}px,0) scale(${p.scale})`
+      }
+
+      // 4. Display map as a GPU-composited image
       const blob   = new Blob([cleanSvgText], { type: 'image/svg+xml' })
       const imgUrl = URL.createObjectURL(blob)
       const mapImg = mapImgRef.current
@@ -441,26 +551,28 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
         mapImg.onerror = () => reject(new Error('SVG image failed to load'))
         mapImg.src = imgUrl
       })
+      URL.revokeObjectURL(imgUrl)
 
       if (cancelled) return
 
-      // 4. Build overlay hit targets + clear any stale visited markers
+      // 5. Build overlay hit targets + clear any stale visited markers
       buildHitTargets()
       if (visitedLayerRef.current) visitedLayerRef.current.innerHTML = ''
 
-      // 5. Fit map to container
-      const container = containerRef.current
-      const cw = container.offsetWidth
-      const ch = container.offsetHeight
-      const p = pan.current
-      p.scale      = Math.min(cw / svgW, ch / svgH) * 0.97
-      p.translateX = (cw - svgW * p.scale) / 2
-      p.translateY = (ch - svgH * p.scale) / 2
+      // 6. Re-apply fit transform via RAF as a safety net in case the
+      //    container resized during the async operations above.
       applyTransform()
 
-      // 6. Render saved visited markers
+      // 7. Render saved visited markers
       for (const id of visitedStations) {
         addVisitedMarker(id)
+      }
+
+      // Notify the fold transition that the new map is ready.
+      if (mapReadyCallbackRef.current) {
+        const cb = mapReadyCallbackRef.current
+        mapReadyCallbackRef.current = null
+        cb()
       }
 
       if (onReady) onReady()
@@ -469,6 +581,11 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
     init().catch(err => {
       console.error('MapView init error:', err)
       // Still dismiss loading overlay so the UI isn't stuck
+      if (mapReadyCallbackRef.current) {
+        const cb = mapReadyCallbackRef.current
+        mapReadyCallbackRef.current = null
+        cb()
+      }
       if (onReady) onReady()
     })
     return () => { cancelled = true }
@@ -620,16 +737,51 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
   const nextMap    = MAPS[1 - mapIndex]
   const activeMap  = MAPS[mapIndex]
 
+  // Pick which snapshot to display on the panels:
+  // fold-in  → old map (snapshot1), fold-out → new map (snapshot2)
+  const foldSnap = foldPhase === 'folding-in' ? snapshot1Ref.current : snapshot2Ref.current
+
   return (
     <div className="map-container tile-bg" ref={containerRef}>
+      {/* Fold transition overlay — two panels that share a center crease */}
+      {foldPhase !== 'idle' && foldSnap && (
+        <div className="fold-overlay">
+          <div
+            className={`fold-panel fold-left ${foldPhase}`}
+            style={{
+              backgroundImage:    `url(${foldSnap.url})`,
+              backgroundSize:     `${foldSnap.width}px ${foldSnap.height}px`,
+              backgroundPosition: '0 0',
+            }}
+            onAnimationEnd={() => {
+              if (foldPhase === 'folding-in')  handleFoldInEnd()
+              else if (foldPhase === 'folding-out') handleFoldOutEnd()
+            }}
+          />
+          <div
+            className={`fold-panel fold-right ${foldPhase}`}
+            style={{
+              backgroundImage:    `url(${foldSnap.url})`,
+              backgroundSize:     `${foldSnap.width}px ${foldSnap.height}px`,
+              backgroundPosition: `-${foldSnap.width / 2}px 0`,
+            }}
+          />
+        </div>
+      )}
+
       <button
         className="map-toggle-btn"
-        onClick={() => setMapIndex(i => 1 - i)}
+        onClick={handleToggle}
+        disabled={foldPhase !== 'idle'}
         title={`Switch to ${nextMap.label} map`}
       >
         {nextMap.label}
       </button>
-      <div className="map-viewport" ref={viewportRef}>
+      <div
+        className="map-viewport"
+        ref={viewportRef}
+        style={foldPhase !== 'idle' ? { visibility: 'hidden' } : undefined}
+      >
         <img
           ref={mapImgRef}
           className="map-img"
