@@ -45,12 +45,18 @@ export default function App() {
   // Skip the first save-on-mount (we just loaded the data)
   const initialLoadDone = useRef(false)
 
+  const [vintageStationData, setVintageStationData] = useState({})
+
   // ── Load station data on mount ──────────────────────────────────────
   useEffect(() => {
     fetch('/subway_station_mapping_2026-01-31.json')
       .then(res => res.json())
       .then(data => setStationData(data.stations))
       .catch(err => console.error('Failed to load station data:', err))
+    fetch('/vintage_station_mapping_2026-03-25.json')
+      .then(res => res.json())
+      .then(data => setVintageStationData(data.stations))
+      .catch(err => console.error('Failed to load vintage station data:', err))
   }, [])
 
   // ── Load progress from API (with cookie fallback) ───────────────────
@@ -166,9 +172,10 @@ export default function App() {
         </div>
       )}
 
-      {Object.keys(stationData).length > 0 && (
+      {Object.keys(stationData).length > 0 && Object.keys(vintageStationData).length > 0 && (
         <MapView
           stationData={stationData}
+          vintageStationData={vintageStationData}
           visitedStations={visitedStations}
           onStationToggle={handleStationToggle}
           onReady={handleMapReady}

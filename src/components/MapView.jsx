@@ -1,11 +1,14 @@
 import { useEffect, useRef, useCallback, useState } from 'react'
 import {
   computeAllClusters,
+  computeVintageAllClusters,
   HIT_PAD,
   MARK_PAD,
   MIN_HIT_DIM,
   MIN_MARK_DIM,
 } from '../utils/geometry'
+import { blendColors } from '../utils/colorBlend'
+import STATION_LINES from '../data/stationLines'
 import './MapView.css'
 
 /**
@@ -40,18 +43,16 @@ import './MapView.css'
  *   onReady           – callback() when map has finished loading
  */
 
-const SVG_W    = 2208
-const SVG_H    = 2688
 const MIN_SCALE = 0.12
 const MAX_SCALE = 3.0
 const NS        = 'http://www.w3.org/2000/svg'
 
 const MAPS = [
-  { url: '/subway_map.svg',   label: 'Diagram' },
-  { url: '/vintage_map.svg',  label: 'Geographic' },
+  { url: '/subway_map.svg',   label: 'Diagram',    w: 2208, h: 2688, vintage: false },
+  { url: '/vintage_map.svg',  label: 'Geographic', w: 1921, h: 2323, vintage: true  },
 ]
 
-export default function MapView({ stationData, visitedStations, onStationToggle, onReady }) {
+export default function MapView({ stationData, vintageStationData, visitedStations, onStationToggle, onReady }) {
   const [mapIndex, setMapIndex] = useState(0)
 
   // DOM refs
@@ -60,6 +61,7 @@ export default function MapView({ stationData, visitedStations, onStationToggle,
   const overlaySvgRef   = useRef(null)
   const hitLayerRef     = useRef(null)
   const visitedLayerRef = useRef(null)
+  const rippleLayerRef  = useRef(null)
   const mapImgRef       = useRef(null)
 
   // Mutable state for pan/zoom (not React state — we don't want re-renders
@@ -117,6 +119,38 @@ export default function MapView({ stationData, visitedStations, onStationToggle,
     return r
   }, [])
 
+  // ── Ripple effect ───────────────────────────────────────────────────────
+
+  const emitRipple = useCallback((svgX, svgY, color = '#373737') => {
+    const layer = rippleLayerRef.current
+    if (!layer) return
+
+    const circle = document.createElementNS(NS, 'circle')
+    circle.setAttribute('cx', svgX)
+    circle.setAttribute('cy', svgY)
+    circle.setAttribute('r', '1')
+    circle.setAttribute('fill', 'none')
+    circle.setAttribute('stroke', color)
+    circle.setAttribute('stroke-width', '4')
+    circle.setAttribute('opacity', '0.85')
+    circle.style.pointerEvents = 'none'
+    layer.appendChild(circle)
+
+    const maxR    = 28
+    const duration = 550
+    const start   = performance.now()
+
+    function frame(now) {
+      const t = Math.min((now - start) / duration, 1)
+      const eased = 1 - Math.pow(1 - t, 3) // ease-out cubic
+      circle.setAttribute('r', eased * maxR)
+      circle.setAttribute('opacity', (1 - t) * 0.85)
+      if (t < 1) requestAnimationFrame(frame)
+      else circle.remove()
+    }
+    requestAnimationFrame(frame)
+  }, [])
+
   // ── Build hit targets ───────────────────────────────────────────────────
 
   const buildHitTargets = useCallback(() => {
@@ -158,21 +192,50 @@ export default function MapView({ stationData, visitedStations, onStationToggle,
     const g = document.createElementNS(NS, 'g')
     g.id = `vm-${stationId}`
     for (const c of clusters) {
+      // Label-only clusters (vintage map, path IDs ≥ 2000) are hit targets only —
+      // don't include them in the visible green marker box.
+      if (c.hitOnly) continue
       let el
       if (c.type === 'custom') {
         // Custom SVG path outline (e.g. L-shape for complex stations)
         el = document.createElementNS(NS, 'path')
         el.setAttribute('d', c.markPath)
+        el.classList.add('visited-marker')
+        g.appendChild(el)
       } else {
         // Standard rectangular visited marker
         const w  = Math.max((c.x2 - c.x) + 2 * MARK_PAD, MIN_MARK_DIM)
         const h  = Math.max((c.y2 - c.y) + 2 * MARK_PAD, MIN_MARK_DIM)
         const cx = c.x - MARK_PAD - Math.max(0, (MIN_MARK_DIM - ((c.x2 - c.x) + 2 * MARK_PAD)) / 2)
         const cy = c.y - MARK_PAD - Math.max(0, (MIN_MARK_DIM - ((c.y2 - c.y) + 2 * MARK_PAD)) / 2)
-        el = makeRect(cx, cy, w, h, MARK_PAD + 3)
+        // Cap radius: never exceed half the shorter side (prevents ovals)
+        const rx = Math.min(MARK_PAD + 10, Math.min(w, h) / 2)
+        el = makeRect(cx, cy, w, h, rx)
+        el.classList.add('visited-marker')
+        g.appendChild(el)
+
+        // Person icon centered above the box
+        const iconCX   = cx + w / 2
+        const iconBase = cy - 3  // bottom of icon, leaving a small gap
+
+        const head = document.createElementNS(NS, 'circle')
+        head.setAttribute('cx', iconCX)
+        head.setAttribute('cy', iconBase - 7.5)
+        head.setAttribute('r', '2.5')
+        head.setAttribute('fill', '#373737')
+        head.style.pointerEvents = 'none'
+        g.appendChild(head)
+
+        const body = document.createElementNS(NS, 'rect')
+        body.setAttribute('x', iconCX - 3)
+        body.setAttribute('y', iconBase - 5)
+        body.setAttribute('width', '6')
+        body.setAttribute('height', '5')
+        body.setAttribute('rx', '1.5')
+        body.setAttribute('fill', '#373737')
+        body.style.pointerEvents = 'none'
+        g.appendChild(body)
       }
-      el.classList.add('visited-marker')
-      g.appendChild(el)
     }
     visitedLayer.appendChild(g)
   }, [makeRect])
@@ -210,12 +273,21 @@ export default function MapView({ stationData, visitedStations, onStationToggle,
     while (el && el !== svg) {
       const sid = el.dataset?.stationId
       if (sid) {
+        // Convert screen coords → SVG coords and emit ripple
+        const p = pan.current
+        const rect = containerRef.current.getBoundingClientRect()
+        const svgX = (e.clientX - rect.left - p.translateX) / p.scale
+        const svgY = (e.clientY - rect.top  - p.translateY) / p.scale
+        // Get line colors for this station and blend them
+        const lineColors = STATION_LINES[sid] || ['#373737']
+        const rippleColor = blendColors(lineColors)
+        emitRipple(svgX, svgY, rippleColor)
         onStationToggle(sid)
         return
       }
       el = el.parentElement
     }
-  }, [onStationToggle])
+  }, [onStationToggle, emitRipple])
 
   // ── Initialization: fetch SVG, compute clusters, render map ─────────────
 
@@ -223,10 +295,13 @@ export default function MapView({ stationData, visitedStations, onStationToggle,
     let cancelled = false
 
     async function init() {
-      console.log('[MapView] init starting, stationData keys:', Object.keys(stationData).length)
+      const { url, w: svgW, h: svgH, vintage } = MAPS[mapIndex]
+      const activeStationData = vintage ? vintageStationData : stationData
+
+      console.log('[MapView] init starting, map:', url, 'stations:', Object.keys(activeStationData).length)
 
       // 1. Fetch the SVG
-      const svgRes = await fetch(MAPS[mapIndex].url)
+      const svgRes = await fetch(url)
       const svgText = await svgRes.text()
       console.log('[MapView] SVG fetched, length:', svgText.length)
 
@@ -235,12 +310,14 @@ export default function MapView({ stationData, visitedStations, onStationToggle,
       // 2. Inject SVG off-screen to compute bounding boxes
       const tempDiv = document.createElement('div')
       tempDiv.style.cssText =
-        'position:fixed;left:-9999px;top:0;width:2208px;height:2688px;overflow:hidden;opacity:0;pointer-events:none'
+        `position:fixed;left:-9999px;top:0;width:${svgW}px;height:${svgH}px;overflow:hidden;opacity:0;pointer-events:none`
       tempDiv.innerHTML = svgText
       document.body.appendChild(tempDiv)
       const computeSVG = tempDiv.querySelector('svg')
       void computeSVG.getBoundingClientRect() // force layout
-      clustersRef.current = computeAllClusters(computeSVG, stationData)
+      clustersRef.current = vintage
+        ? computeVintageAllClusters(computeSVG, activeStationData)
+        : computeAllClusters(computeSVG, activeStationData)
       document.body.removeChild(tempDiv)
 
       if (cancelled) return
@@ -266,9 +343,9 @@ export default function MapView({ stationData, visitedStations, onStationToggle,
       const cw = container.offsetWidth
       const ch = container.offsetHeight
       const p = pan.current
-      p.scale      = Math.min(cw / SVG_W, ch / SVG_H) * 0.97
-      p.translateX = (cw - SVG_W * p.scale) / 2
-      p.translateY = (ch - SVG_H * p.scale) / 2
+      p.scale      = Math.min(cw / svgW, ch / svgH) * 0.97
+      p.translateX = (cw - svgW * p.scale) / 2
+      p.translateY = (ch - svgH * p.scale) / 2
       applyTransform()
 
       // 6. Render saved visited markers
@@ -430,7 +507,8 @@ export default function MapView({ stationData, visitedStations, onStationToggle,
     }
   }, [applyTransform, suspendHitTest])
 
-  const nextMap = MAPS[1 - mapIndex]
+  const nextMap    = MAPS[1 - mapIndex]
+  const activeMap  = MAPS[mapIndex]
 
   return (
     <div className="map-container tile-bg" ref={containerRef}>
@@ -445,19 +523,20 @@ export default function MapView({ stationData, visitedStations, onStationToggle,
         <img
           ref={mapImgRef}
           className="map-img"
-          width={SVG_W}
-          height={SVG_H}
+          width={activeMap.w}
+          height={activeMap.h}
           alt="NYC Subway Map"
         />
         <svg
           ref={overlaySvgRef}
           className="overlay-svg"
-          viewBox={`0 0 ${SVG_W} ${SVG_H}`}
-          width={SVG_W}
-          height={SVG_H}
+          viewBox={`0 0 ${activeMap.w} ${activeMap.h}`}
+          width={activeMap.w}
+          height={activeMap.h}
           onClick={handleOverlayClick}
         >
           <g ref={visitedLayerRef} style={{ pointerEvents: 'none' }} />
+          <g ref={rippleLayerRef}  style={{ pointerEvents: 'none' }} />
           <g ref={hitLayerRef}     style={{ pointerEvents: 'all' }} />
         </svg>
       </div>

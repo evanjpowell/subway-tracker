@@ -181,3 +181,62 @@ export function computeAllClusters(svgEl, stationData) {
   }
   return clusters
 }
+
+/**
+ * Extract the numeric portion from a path ID string (e.g. "path1234" → 1234).
+ */
+function pathIdNumber(pathId) {
+  const m = pathId.match(/\d+/)
+  return m ? parseInt(m[0], 10) : 0
+}
+
+/**
+ * Compute clustered bounding boxes for the vintage (geographic) map.
+ *
+ * The vintage map includes station-label paths whose IDs have numbers ≥ 2000.
+ * Labels can sit far from the actual stop dot, so including them in the
+ * visited-marker box would produce a giant green rectangle. Instead:
+ *
+ *   paths with numeric ID < 2000  → used for both the visited marker AND the hit target
+ *   paths with numeric ID ≥ 2000  → used ONLY for the hit target  (hitOnly: true)
+ *
+ * Both groups still produce transparent hit-target rects so the user can tap
+ * either the dot or the label to mark a station visited.
+ */
+const VINTAGE_LABEL_EXCEPTIONS = new Set([3886, 3890, 3897, 3898, 3899])
+
+function isVintageMarkerPath(pathId) {
+  const n = pathIdNumber(pathId)
+  if (n < 2000) return true
+  if (n >= 3800 && n <= 3899 && !VINTAGE_LABEL_EXCEPTIONS.has(n)) return true
+  return false
+}
+
+export function computeVintageAllClusters(svgEl, stationData) {
+  const clusters = {}
+
+  for (const [stationId, station] of Object.entries(stationData)) {
+    const markerPaths = station.paths.filter(p => isVintageMarkerPath(p))
+    const labelPaths  = station.paths.filter(p => !isVintageMarkerPath(p))
+
+    const getBBoxes = (paths) => {
+      const bboxes = []
+      for (const pathId of paths) {
+        const el = svgEl.querySelector(`#${pathId}`)
+        if (!el) continue
+        try {
+          const bb = pathBBoxInRoot(el, svgEl)
+          if (bb) bboxes.push(bb)
+        } catch (_) { /* skip unrenderable paths */ }
+      }
+      return bboxes
+    }
+
+    const markerClusters = clusterBBoxes(getBBoxes(markerPaths))
+    const labelClusters  = clusterBBoxes(getBBoxes(labelPaths)).map(c => ({ ...c, hitOnly: true }))
+
+    clusters[stationId] = [...markerClusters, ...labelClusters]
+  }
+
+  return clusters
+}
