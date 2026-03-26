@@ -54,7 +54,8 @@ const MAPS = [
 
 export default function MapView({ stationData, vintageStationData, visitedStations, onStationToggle, onReady }) {
   const [mapIndex, setMapIndex] = useState(0)
-  const [foldPhase, setFoldPhase] = useState('idle') // 'idle' | 'folding-in' | 'folding-out'
+  const [transPhase, setTransPhase] = useState('idle')
+  // 'idle' | 'slide-out' | 'slide-in'
 
   // DOM refs
   const containerRef      = useRef(null)
@@ -86,11 +87,12 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
   // Whether the currently active map is the diagram (non-vintage) map
   const isDiagramRef = useRef(true)
 
-  // Fold transition: snapshots of the map at the moment the fold starts/ends,
-  // and a callback slot that init() fires when the new map is ready.
-  const snapshot1Ref        = useRef(null) // old map — used during fold-in
-  const snapshot2Ref        = useRef(null) // new map — used during fold-out
-  const mapReadyCallbackRef = useRef(null) // set by handleToggle, called by init
+  // Slide transition: snapshots and async-readiness flags.
+  const snapshot1Ref        = useRef(null)  // old map snapshot — slide-out
+  const snapshot2Ref        = useRef(null)  // new map snapshot — slide-in
+  const mapReadyCallbackRef = useRef(null)  // set by handleToggle, called by init
+  const slideOutDoneRef     = useRef(false) // true once slide-out animation ends
+  const mapLoadedRef        = useRef(false) // true once new map finishes loading
 
   // ── Transform helpers ───────────────────────────────────────────────────
 
@@ -344,7 +346,7 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
     }
   }, [onStationToggle, emitRipple])
 
-  // ── Fold transition helpers ──────────────────────────────────────────────
+  // ── Slide transition helpers ─────────────────────────────────────────────
 
   // Rasterize the current map image into a canvas at container resolution.
   // Returns { url, width, height } or null if the image isn't ready.
@@ -353,11 +355,9 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
     const img       = mapImgRef.current
     if (!container || !img || !img.src) return null
 
-    const cw = container.offsetWidth
-    const ch = container.offsetHeight
-    // Use the img element's actual layout dimensions to avoid stale-closure
-    // issues with mapIndex — offsetWidth/Height reflect the current HTML attrs.
-    const imgW = img.offsetWidth
+    const cw   = container.offsetWidth
+    const ch   = container.offsetHeight
+    const imgW = img.offsetWidth   // actual layout size, avoids stale-closure issues
     const imgH = img.offsetHeight
     const p    = pan.current
 
@@ -373,15 +373,20 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
     }
   }
 
-  function handleToggle() {
-    if (foldPhase !== 'idle') return
-    // Instantly hide the overlay SVG layers (visited markers, outlines, etc.)
-    // before the fold starts. They'll fade back in once the new map is revealed.
-    const svg = overlaySvgRef.current
-    if (svg) {
-      svg.style.transition = 'none'
-      svg.style.opacity    = '0'
+  // Called when both slide-out animation AND new map load are done.
+  function attemptSlideIn() {
+    if (slideOutDoneRef.current && mapLoadedRef.current) {
+      setTransPhase(snapshot2Ref.current ? 'slide-in' : 'idle')
     }
+  }
+
+  function handleToggle() {
+    if (transPhase !== 'idle') return
+    // Instantly hide the overlay SVG before the slide starts.
+    // It fades back in when we reach 'idle'.
+    const svg = overlaySvgRef.current
+    if (svg) { svg.style.transition = 'none'; svg.style.opacity = '0' }
+
     const snap = takeSnapshot()
     if (!snap) {
       // Image not ready — switch immediately without animation
@@ -389,41 +394,44 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
       setMapIndex(i => 1 - i)
       return
     }
-    snapshot1Ref.current = snap
-    snapshot2Ref.current = null
-    setFoldPhase('folding-in')
-    // mapIndex changes in handleFoldInEnd, after the fold-in animation completes
-  }
 
-  function handleFoldInEnd() {
-    // Panels are now edge-on (invisible). Switch the map and wait for it to load.
+    snapshot1Ref.current  = snap
+    snapshot2Ref.current  = null
+    slideOutDoneRef.current = false
+    mapLoadedRef.current    = false
+
+    // When the new map finishes loading, snapshot it and try to start slide-in.
     mapReadyCallbackRef.current = () => {
-      // New map is ready — snapshot it, then unfold to reveal it.
       snapshot2Ref.current = takeSnapshot()
-      setFoldPhase('folding-out')
+      mapLoadedRef.current = true
+      attemptSlideIn()
     }
-    setMapIndex(i => 1 - i)
+
+    setTransPhase('slide-out')
+    setMapIndex(i => 1 - i)  // kick off the new map load in parallel
   }
 
-  function handleFoldOutEnd() {
-    setFoldPhase('idle')
+  function handleSlideOutEnd() {
+    slideOutDoneRef.current = true
+    attemptSlideIn()
+  }
+
+  function handleSlideInEnd() {
+    setTransPhase('idle')
     snapshot1Ref.current = null
     snapshot2Ref.current = null
   }
 
-  // Fade the overlay SVG back in after each fold completes.
-  // This effect runs after React commits the DOM, so by the time it fires
-  // the viewport's visibility:hidden has already been lifted — the overlay
-  // is visible at opacity:0 and ready to transition.
+  // Fade the overlay SVG back in after the transition completes.
   useEffect(() => {
-    if (foldPhase !== 'idle') return
+    if (transPhase !== 'idle') return
     const svg = overlaySvgRef.current
     if (!svg) return
     svg.style.transition = 'opacity 180ms ease-out'
     svg.style.opacity    = '1'
     const timer = setTimeout(() => { svg.style.transition = '' }, 180)
     return () => clearTimeout(timer)
-  }, [foldPhase])
+  }, [transPhase])
 
   // ── Initialization: fetch SVG, compute clusters, render map ─────────────
 
@@ -734,45 +742,39 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
     }
   }, [applyTransform, suspendHitTest])
 
-  const nextMap    = MAPS[1 - mapIndex]
-  const activeMap  = MAPS[mapIndex]
+  const nextMap   = MAPS[1 - mapIndex]
+  const activeMap = MAPS[mapIndex]
 
-  // Pick which snapshot to display on the panels:
-  // fold-in  → old map (snapshot1), fold-out → new map (snapshot2)
-  const foldSnap = foldPhase === 'folding-in' ? snapshot1Ref.current : snapshot2Ref.current
+  const snapStyle = (snap) => snap ? ({
+    backgroundImage:    `url(${snap.url})`,
+    backgroundSize:     `${snap.width}px ${snap.height}px`,
+    backgroundPosition: '0 0',
+    backgroundRepeat:   'no-repeat',
+  }) : undefined
 
   return (
     <div className="map-container tile-bg" ref={containerRef}>
-      {/* Fold transition overlay — two panels that share a center crease */}
-      {foldPhase !== 'idle' && foldSnap && (
-        <div className="fold-overlay">
-          <div
-            className={`fold-panel fold-left ${foldPhase}`}
-            style={{
-              backgroundImage:    `url(${foldSnap.url})`,
-              backgroundSize:     `${foldSnap.width}px ${foldSnap.height}px`,
-              backgroundPosition: '0 0',
-            }}
-            onAnimationEnd={() => {
-              if (foldPhase === 'folding-in')  handleFoldInEnd()
-              else if (foldPhase === 'folding-out') handleFoldOutEnd()
-            }}
-          />
-          <div
-            className={`fold-panel fold-right ${foldPhase}`}
-            style={{
-              backgroundImage:    `url(${foldSnap.url})`,
-              backgroundSize:     `${foldSnap.width}px ${foldSnap.height}px`,
-              backgroundPosition: `-${foldSnap.width / 2}px 0`,
-            }}
-          />
-        </div>
+      {/* Slide-out: old map exits to the left */}
+      {transPhase === 'slide-out' && snapshot1Ref.current && (
+        <div
+          className="slide-overlay slide-overlay-out"
+          style={snapStyle(snapshot1Ref.current)}
+          onAnimationEnd={handleSlideOutEnd}
+        />
+      )}
+      {/* Slide-in: new map enters from the right */}
+      {transPhase === 'slide-in' && snapshot2Ref.current && (
+        <div
+          className="slide-overlay slide-overlay-in"
+          style={snapStyle(snapshot2Ref.current)}
+          onAnimationEnd={handleSlideInEnd}
+        />
       )}
 
       <button
         className="map-toggle-btn"
         onClick={handleToggle}
-        disabled={foldPhase !== 'idle'}
+        disabled={transPhase !== 'idle'}
         title={`Switch to ${nextMap.label} map`}
       >
         {nextMap.label}
@@ -780,7 +782,7 @@ export default function MapView({ stationData, vintageStationData, visitedStatio
       <div
         className="map-viewport"
         ref={viewportRef}
-        style={foldPhase !== 'idle' ? { visibility: 'hidden' } : undefined}
+        style={transPhase !== 'idle' ? { visibility: 'hidden' } : undefined}
       >
         <img
           ref={mapImgRef}
